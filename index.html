@@ -1,325 +1,221 @@
 ---
 layout: default
-title: "الرئيسية"
+title: "Dis Ney – العرائس الفاخرة"
 ---
 
-<!-- ===== HEADER ===== -->
-<header>
-    <div class="container header-flex">
-        <div class="logo">
-            <div class="logo-icon">👑</div>
-            <div>
-                <div class="logo-text">Dis <span>Ney</span></div>
-                <span class="logo-sub">✦ العرائس الفاخرة ✦</span>
-            </div>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
-                <li><a href="#products"><i class="fas fa-gem"></i> العرائس</a></li>
-                <li><a href="#handmade"><i class="fas fa-hands"></i> الأشغال اليدوية</a></li>
-                <li class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                </li>
-                <li>
-                    <a href="/disney-store/admin" target="_blank" class="admin-toggle">
-                        <i class="fas fa-user-tie"></i> لوحة التحكم
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<!-- ===== HERO ===== -->
-<section class="hero">
-    <div class="container">
-        <h1>🛍️ مرحباً بك في <span class="highlight">Dis Ney</span></h1>
-        <p><i class="fas fa-check-circle" style="color:#b45f4a;"></i> اكتشف أجمل العرائس والألعاب الأصلية</p>
-    </div>
-</section>
-
-<!-- ===== HANDMADE ===== -->
-<section id="handmade" class="container handmade-corner">
-    <div class="handmade-header">
-        <i class="fas fa-hands"></i>
-        <h2>🧵 ركن الأشغال اليدوية <small>– لمسات يدوية فريدة</small></h2>
-    </div>
-    <div class="handmade-grid">
-        <div class="handmade-item">
-            <i class="fas fa-tshirt"></i>
-            <h4>ملابس مطرزة</h4>
-            <p>تفاصيل يدوية على فساتين العرائس</p>
-            <span class="badge-handmade">صنع يدوي</span>
-        </div>
-        <div class="handmade-item">
-            <i class="fas fa-bed"></i>
-            <h4>أثاث مصغر</h4>
-            <p>قطع خشبية مصنوعة باليد</p>
-            <span class="badge-handmade">إصدار محدود</span>
-        </div>
-        <div class="handmade-item">
-            <i class="fas fa-paint-brush"></i>
-            <h4>رسم وتلوين</h4>
-            <p>عرائس مرسومة يدوياً</p>
-            <span class="badge-handmade">حصرية</span>
-        </div>
-        <div class="handmade-item">
-            <i class="fas fa-crown"></i>
-            <h4>إكسسوارات يدوية</h4>
-            <p>تيجان وحقائب صغيرة</p>
-            <span class="badge-handmade">طلب خاص</span>
-        </div>
-    </div>
-</section>
-
-<!-- ===== PRODUCTS ===== -->
-<section id="products" class="container">
-    <div class="section-title">
-        <i class="fas fa-star"></i> العرائس الأصلية
-    </div>
-    <div class="product-grid" id="productGrid">
-        <!-- سيتم تعبئتها بواسطة جافا سكريبت من ملف products.yml -->
-    </div>
-</section>
-
-<!-- ===== SOCIAL ===== -->
-<section class="container">
-    <div class="section-title">
-        <i class="fas fa-share-alt"></i> تواصل معنا
-    </div>
-    <div class="social-links">
-        <a href="https://wa.me/201276364424" target="_blank" class="whatsapp">
-            <i class="fab fa-whatsapp"></i> واتساب
-        </a>
-        <a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank" class="facebook-group">
-            <i class="fas fa-users"></i> جروب الفيسبوك
-        </a>
-        <a href="https://www.instagram.com/lolitadis" target="_blank" class="instagram">
-            <i class="fab fa-instagram"></i> إنستجرام
-        </a>
-        <a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank" class="tiktok">
-            <i class="fab fa-tiktok"></i> تيك توك
-        </a>
-    </div>
-</section>
-
-<!-- ===== CART SIDEBAR ===== -->
-<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-<div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-        <h2><i class="fas fa-shopping-bag"></i> سلة التسوق</h2>
-        <i class="fas fa-times" onclick="toggleCart()"></i>
-    </div>
-    <div id="cartItems">
-        <div class="cart-empty">
-            <i class="fas fa-shopping-bag"></i>
-            <p>سلة التسوق فارغة</p>
-            <p style="font-size:0.85rem; color:#999;">أضف منتجاتك المفضلة الآن</p>
-        </div>
-    </div>
-    <div class="cart-total" id="cartTotal" style="display:none;">
-        <div class="total-row">
-            <span>المجموع:</span>
-            <span id="totalPrice">$0.00</span>
-        </div>
-        <button class="checkout-btn" onclick="checkout()">
-            <i class="fas fa-credit-card"></i> إتمام الشراء
-        </button>
-    </div>
-</div>
-
-<!-- ===== FOOTER ===== -->
-<footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4><i class="fas fa-crown"></i> Dis Ney</h4>
-                <p style="color:#dbb8ab;">متجر العرائس والألعاب الأصلية</p>
-            </div>
-            <div>
-                <h4>روابط</h4>
-                <ul>
-                    <li><a href="#">الرئيسية</a></li>
-                    <li><a href="#products">العرائس</a></li>
-                    <li><a href="#handmade">الأشغال اليدوية</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>حساباتنا</h4>
-                <ul>
-                    <li><a href="https://www.instagram.com/lolitadis" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
-                    <li><a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>تواصل</h4>
-                <ul>
-                    <li><i class="fas fa-phone"></i> <a href="https://wa.me/201276364424" target="_blank">+20 127 636 4424</a></li>
-                    <li><i class="fas fa-envelope"></i> info@disney-store.com</li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2026 Dis Ney – جميع الحقوق محفوظة</p>
-        </div>
-    </div>
-</footer>
-
-<!-- ===== JAVASCRIPT ===== -->
-<script>
-    // ===== جلب المنتجات =====
-    let products = [];
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dis Ney – العرائس الفاخرة</title>
+    <meta name="description" content="متجر Dis Ney لبيع العرائس والألعاب الأصلية" />
     
-    // تحميل المنتجات من ملف YML
-    fetch('/disney-store/_data/products.yml')
-        .then(response => response.text())
-        .then(text => {
-            // تحويل YML إلى JSON بسيط
-            const lines = text.split('\n');
-            let currentProduct = {};
-            let productsList = [];
-            
-            for (let line of lines) {
-                if (line.startsWith('- id:')) {
-                    if (currentProduct.id) {
-                        productsList.push(currentProduct);
-                    }
-                    currentProduct = {};
-                    currentProduct.id = parseInt(line.split(':')[1].trim());
-                } else if (line.includes('name:')) {
-                    currentProduct.name = line.split(':')[1].trim();
-                } else if (line.includes('price:')) {
-                    currentProduct.price = parseFloat(line.split(':')[1].trim());
-                } else if (line.includes('image:')) {
-                    currentProduct.image = line.split(':')[1].trim();
-                } else if (line.includes('description:')) {
-                    currentProduct.description = line.split(':')[1].trim();
-                } else if (line.includes('original:')) {
-                    currentProduct.original = line.split(':')[1].trim() === 'true';
-                }
-            }
-            if (currentProduct.id) {
-                productsList.push(currentProduct);
-            }
-            products = productsList;
-            renderProducts();
-        })
-        .catch(() => {
-            // منتجات افتراضية في حالة عدم وجود الملف
-            products = [
-                { id: 1, name: 'أميرة الأحلام', price: 59.99, image: '', description: 'عرسة فاخرة' },
-                { id: 2, name: 'دب لطيف', price: 34.50, image: '', description: 'دمية ناعمة' }
-            ];
-            renderProducts();
-        });
+    <!-- Google Fonts + Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- ملف التنسيقات -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
 
-    // ===== عرض المنتجات =====
-    function renderProducts() {
-        const grid = document.getElementById('productGrid');
-        if (!grid) return;
-        
-        grid.innerHTML = products.map(p => `
-            <div class="product-card">
-                ${p.image ? `<img src="${p.image}" alt="${p.name}" />` : 
-                `<div style="width:170px;height:170px;border-radius:50%;background:#fceae3;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:3rem;border:3px solid #f0e0d8;">🎀</div>`}
-                <h3>${p.name}</h3>
-                <span class="original-badge"><i class="fas fa-check-circle"></i> أصلية</span>
-                <div class="price">$${p.price.toFixed(2)}</div>
-                <button class="btn" onclick="addToCart(${p.id})">
-                    <i class="fas fa-cart-plus"></i> أضف للسلة
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-inner">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>Dis Ney</span>
+                <i class="fas fa-star" style="color:var(--gold);font-size:1.2rem;"></i>
+            </div>
+            <nav>
+                <a href="#home">الرئيسية</a>
+                <a href="#products">العرائس</a>
+                <a href="#handmade">الأشغال اليدوية</a>
+                <a href="#favorites">المفضلة</a>
+                <div class="nav-icons">
+                    <span class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </span>
+                    <button class="dashboard-btn" id="openDashboardBtn">
+                        <i class="fas fa-user-cog"></i> لوحة التحكم
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1><i class="fas fa-crown"></i> Dis Ney – العرائس الفاخرة</h1>
+            <p>اكتشفي أجمل العرائس والألعاب الأصلية، صناعة يدوية بجودة استثنائية ✨</p>
+            <button class="btn btn-gold" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'});">
+                <i class="fas fa-shopping-bag"></i> تسوق الآن
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== HANDMADE CORNER ===== -->
+    <section class="container" id="handmade">
+        <div class="section-title"><i class="fas fa-hands"></i> ركن الأشغال اليدوية</div>
+        <div class="handmade-grid" id="handmadeGrid">
+            <!-- يتم تعبئته عبر JavaScript -->
+        </div>
+    </section>
+
+    <!-- ===== PRODUCTS ===== -->
+    <section class="container" id="products">
+        <div class="section-title"><i class="fas fa-gem"></i> منتجاتنا الأصلية</div>
+        <div class="products-grid" id="productsGrid">
+            <!-- يتم تعبئته عبر JavaScript -->
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="container newsletter-section">
+        <div class="newsletter-box">
+            <h3><i class="fas fa-envelope"></i> اشترك في النشرة البريدية</h3>
+            <p>احصل على أحدث العروض والتخفيضات أولاً!</p>
+            <div class="newsletter-form">
+                <input type="email" id="newsletterEmail" placeholder="بريدك الإلكتروني" />
+                <button id="newsletterBtn">اشتراك</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4><i class="fas fa-crown" style="color:var(--gold);"></i> Dis Ney</h4>
+                    <p style="opacity:0.7;line-height:1.6;">العرائس الفاخرة – منتجات أصلية مصنوعة بحب ❤️</p>
+                </div>
+                <div>
+                    <h4>روابط سريعة</h4>
+                    <a href="#home">الرئيسية</a>
+                    <a href="#products">العرائس</a>
+                    <a href="#handmade">الأشغال اليدوية</a>
+                </div>
+                <div>
+                    <h4>تواصل معنا</h4>
+                    <div class="social-icons">
+                        <a href="https://wa.me/201276364424" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/lolitadis" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>معلومات الاتصال</h4>
+                    <p><i class="fas fa-phone"></i> +201276364424</p>
+                    <p><i class="fas fa-envelope"></i> info@disney.com</p>
+                </div>
+            </div>
+            <div class="copy">© 2026 Dis Ney – جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <!-- ===== CART SIDEBAR ===== -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <span><i class="fas fa-shopping-bag"></i> سلة التسوق</span>
+                <span class="close-cart" id="closeCart"><i class="fas fa-times"></i></span>
+            </div>
+            <div id="cartItemsList"></div>
+            <div class="cart-total" id="cartTotal">الإجمالي: 0 ج.م</div>
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fas fa-credit-card"></i> إتمام الشراء
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD SIDEBAR ===== -->
+    <div class="dashboard-overlay" id="dashboardOverlay">
+        <div class="dashboard-sidebar">
+            <div class="dash-header">
+                <span><i class="fas fa-crown" style="color:var(--gold);"></i> لوحة التحكم</span>
+                <span class="close-dash" id="closeDash"><i class="fas fa-times"></i></span>
+            </div>
+            
+            <!-- إحصائيات سريعة -->
+            <div class="dash-stats" id="dashStats">
+                <div class="dash-stat-card">
+                    <div class="num" id="statProducts">0</div>
+                    <div class="label">منتجات</div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="num" id="statOrders">0</div>
+                    <div class="label">طلبات جديدة</div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="num" id="statCustomers">0</div>
+                    <div class="label">زبائن</div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="num" id="statRevenue">0</div>
+                    <div class="label">الإيرادات (شهر)</div>
+                </div>
+            </div>
+
+            <!-- إدارة المنتجات -->
+            <div class="dash-section">
+                <h3><i class="fas fa-box"></i> إدارة المنتجات</h3>
+                <div class="add-product-form">
+                    <input type="text" id="newProductName" placeholder="اسم المنتج" />
+                    <input type="text" id="newProductPrice" placeholder="السعر" />
+                    <input type="text" id="newProductImg" placeholder="رابط الصورة (اختياري)" />
+                    <button id="addProductBtn"><i class="fas fa-plus"></i> إضافة</button>
+                </div>
+                <div id="dashProductList"></div>
+            </div>
+
+            <!-- إدارة المسميات -->
+            <div class="dash-section">
+                <h3><i class="fas fa-pen-fancy"></i> إدارة المسميات</h3>
+                <ul class="dash-text-list" id="textsList"></ul>
+                <button class="restore-btn" id="restoreTextsBtn">
+                    <i class="fas fa-undo-alt"></i> استعادة المسميات الافتراضية
                 </button>
             </div>
-        `).join('');
-    }
 
-    // ===== سلة التسوق =====
-    let cart = [];
-    let orderCount = 0;
-
-    function addToCart(id) {
-        const p = products.find(x => x.id === id);
-        if (!p) return;
-        const existing = cart.find(x => x.id === id);
-        if (existing) existing.qty += 1;
-        else cart.push({ ...p, qty: 1 });
-        updateCart();
-        alert(`✅ تمت إضافة "${p.name}" إلى السلة`);
-    }
-
-    function updateCart() {
-        const container = document.getElementById('cartItems');
-        const totalDiv = document.getElementById('cartTotal');
-        const totalEl = document.getElementById('totalPrice');
-        const countEl = document.getElementById('cartCount');
-
-        const totalItems = cart.reduce((s, i) => s + i.qty, 0);
-        countEl.textContent = totalItems;
-
-        if (cart.length === 0) {
-            container.innerHTML = `
-                <div class="cart-empty">
-                    <i class="fas fa-shopping-bag"></i>
-                    <p>سلة التسوق فارغة</p>
-                    <p style="font-size:0.85rem; color:#999;">أضف منتجاتك المفضلة الآن</p>
+            <!-- إدارة الصور (متقدم) -->
+            <div class="dash-section">
+                <h3><i class="fas fa-images"></i> إدارة الصور</h3>
+                <div class="image-upload-area" id="imageUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>اسحب الصور هنا أو اضغط للرفع</p>
+                    <input type="file" id="imageUpload" multiple accept="image/*" />
                 </div>
-            `;
-            totalDiv.style.display = 'none';
-            return;
-        }
+                <div class="image-grid" id="imageGrid"></div>
+                <button class="clear-images-btn" id="clearImagesBtn">
+                    <i class="fas fa-trash"></i> مسح الكل
+                </button>
+            </div>
 
-        totalDiv.style.display = 'block';
-        let total = 0;
-        container.innerHTML = cart.map(item => {
-            total += item.price * item.qty;
-            return `
-                <div class="cart-item">
-                    ${item.image ? `<img src="${item.image}" alt="${item.name}" />` : 
-                    `<div style="width:60px;height:60px;border-radius:16px;background:#fceae3;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎀</div>`}
-                    <div class="item-info">
-                        <h4>${item.name}</h4>
-                        <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
-                    </div>
-                    <div class="item-qty">
-                        <button onclick="updateQty(${item.id}, -1)">-</button>
-                        <span>${item.qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)">+</button>
-                    </div>
-                    <span class="remove-item" onclick="removeFromCart(${item.id})"><i class="fas fa-trash-alt"></i></span>
-                </div>
-            `;
-        }).join('');
-        totalEl.textContent = `$${total.toFixed(2)}`;
-    }
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
+    </div>
 
-    function updateQty(id, change) {
-        const item = cart.find(x => x.id === id);
-        if (!item) return;
-        item.qty += change;
-        if (item.qty <= 0) removeFromCart(id);
-        else updateCart();
-    }
+    <!-- ===== LOGIN OVERLAY ===== -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <h2><i class="fas fa-lock"></i> تسجيل الدخول</h2>
+            <input type="text" id="loginUser" placeholder="اسم المستخدم" />
+            <input type="password" id="loginPass" placeholder="كلمة المرور" />
+            <div class="login-error" id="loginError"></div>
+            <button class="login-submit" id="loginSubmit">دخول</button>
+        </div>
+    </div>
 
-    function removeFromCart(id) {
-        cart = cart.filter(x => x.id !== id);
-        updateCart();
-    }
-
-    function toggleCart() {
-        document.getElementById('cartSidebar').classList.toggle('open');
-        document.getElementById('cartOverlay').style.display = 
-            document.getElementById('cartSidebar').classList.contains('open') ? 'block' : 'none';
-    }
-
-    function checkout() {
-        if (cart.length === 0) { alert('السلة فارغة!'); return; }
-        const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-        const items = cart.map(i => `${i.name} (×${i.qty})`).join(', ');
-        alert(`✅ تم الشراء!\n\n${items}\nالمجموع: $${total.toFixed(2)}\n\nسيتم التواصل معك لتأكيد الطلب.`);
-        cart = [];
-        updateCart();
-        toggleCart();
-    }
-                </script>
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="/assets/js/main.js"></script>
+</body>
+    </html>
