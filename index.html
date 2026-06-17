@@ -30,7 +30,7 @@
             padding: 0 20px;
         }
 
-        /* ===== LOGIN OVERLAY ===== */
+        /* ===== LOGIN OVERLAY (للمالك فقط) ===== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -40,13 +40,13 @@
             background: rgba(0,0,0,0.75);
             backdrop-filter: blur(10px);
             z-index: 99999;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             transition: 0.5s;
         }
-        .login-overlay.hidden {
-            display: none;
+        .login-overlay.active {
+            display: flex;
         }
         .login-box {
             background: white;
@@ -57,6 +57,7 @@
             text-align: center;
             box-shadow: 0 30px 80px rgba(0,0,0,0.3);
             animation: fadeInUp 0.6s ease;
+            position: relative;
         }
         @keyframes fadeInUp {
             from { transform: translateY(50px); opacity: 0; }
@@ -124,6 +125,19 @@
         }
         .login-box .login-error.show {
             display: block;
+        }
+        .login-box .close-login {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #6b4f3f;
+            transition: 0.3s;
+        }
+        .login-box .close-login:hover {
+            color: #a65555;
+            transform: rotate(90deg);
         }
 
         /* ===== NOTIFICATION TOAST ===== */
@@ -335,7 +349,7 @@
             text-align: center;
         }
 
-        /* ===== ADMIN BUTTON (ظهر للمالك بعد تسجيل الدخول) ===== */
+        /* ===== ADMIN BUTTON ===== */
         .admin-toggle {
             background: #3d2a1f;
             padding: 8px 20px;
@@ -384,6 +398,7 @@
             backdrop-filter: blur(4px);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: 0.3s;
+            cursor: default;
         }
         .logo:hover {
             transform: scale(1.02);
@@ -636,7 +651,7 @@
             box-shadow: 0 8px 20px rgba(200, 90, 60, 0.3);
         }
 
-        /* ===== ADMIN PANEL (يظهر فقط للمالك) ===== */
+        /* ===== ADMIN PANEL ===== */
         .admin-panel {
             display: none;
             background: #fff9f5;
@@ -654,6 +669,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .admin-panel .admin-header h3 {
             font-size: 1.8rem;
@@ -698,7 +715,68 @@
             color: #6b4f3f;
             font-size: 0.9rem;
         }
-        .admin-panel .admin-products .product-item {
+
+        /* ===== إدارة المسميات ===== */
+        .labels-manager {
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #f0e0d8;
+        }
+        .labels-manager h4 {
+            color: #3d2a1f;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .labels-manager .label-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0e0d8;
+            flex-wrap: wrap;
+        }
+        .labels-manager .label-item .label-key {
+            font-weight: 600;
+            color: #6b4f3f;
+            min-width: 120px;
+        }
+        .labels-manager .label-item input {
+            flex: 1;
+            padding: 8px 15px;
+            border: 2px solid #f0e0d8;
+            border-radius: 30px;
+            font-size: 1rem;
+            min-width: 150px;
+            background: #faf3f0;
+        }
+        .labels-manager .label-item input:focus {
+            outline: none;
+            border-color: #e07a5f;
+        }
+        .labels-manager .label-item .save-label-btn {
+            background: #4a7a5a;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .labels-manager .label-item .save-label-btn:hover {
+            background: #3a6a4a;
+            transform: scale(1.05);
+        }
+
+        /* ===== إدارة المنتجات في الأدمن ===== */
+        .admin-products {
+            margin-top: 20px;
+        }
+        .admin-products .product-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -707,19 +785,21 @@
             border-radius: 20px;
             margin-bottom: 10px;
             border: 1px solid #f0e0d8;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .admin-panel .admin-products .product-item .product-info {
+        .admin-products .product-item .product-info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        .admin-panel .admin-products .product-item .product-info img {
+        .admin-products .product-item .product-info img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
         }
-        .admin-panel .admin-products .product-item .product-actions button {
+        .admin-products .product-item .product-actions button {
             background: none;
             border: none;
             font-size: 1.2rem;
@@ -729,21 +809,21 @@
             transition: 0.3s;
             margin: 0 3px;
         }
-        .admin-panel .admin-products .product-item .product-actions .edit-btn {
+        .admin-products .product-item .product-actions .edit-btn {
             color: #4a7a5a;
         }
-        .admin-panel .admin-products .product-item .product-actions .edit-btn:hover {
+        .admin-products .product-item .product-actions .edit-btn:hover {
             background: #4a7a5a;
             color: white;
         }
-        .admin-panel .admin-products .product-item .product-actions .delete-btn {
+        .admin-products .product-item .product-actions .delete-btn {
             color: #a65555;
         }
-        .admin-panel .admin-products .product-item .product-actions .delete-btn:hover {
+        .admin-products .product-item .product-actions .delete-btn:hover {
             background: #a65555;
             color: white;
         }
-        .admin-panel .add-product-btn {
+        .add-product-btn {
             background: #4a7a5a;
             color: white;
             border: none;
@@ -754,7 +834,7 @@
             transition: 0.3s;
             margin-top: 10px;
         }
-        .admin-panel .add-product-btn:hover {
+        .add-product-btn:hover {
             transform: scale(1.05);
             background: #3a6a4a;
         }
@@ -907,14 +987,17 @@
             .notification-toast { left: 10px; right: 10px; max-width: none; }
             .social-links a { padding: 10px 18px; font-size: 0.85rem; }
             .login-box { padding: 30px 20px; }
+            .labels-manager .label-item { flex-direction: column; align-items: stretch; }
+            .labels-manager .label-item .label-key { min-width: auto; }
         }
     </style>
 </head>
 <body>
 
-<!-- ===== LOGIN OVERLAY ===== -->
+<!-- ===== LOGIN OVERLAY (للمالك فقط) ===== -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
+        <span class="close-login" onclick="closeLogin()">&times;</span>
         <div class="logo-login">👑</div>
         <h2>Dis Ney</h2>
         <p>تسجيل الدخول إلى لوحة التحكم</p>
@@ -951,23 +1034,23 @@
 <!-- ===== CART SIDEBAR ===== -->
 <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
-        <h2><i class="fas fa-shopping-bag"></i> سلة التسوق</h2>
+        <h2><i class="fas fa-shopping-bag"></i> <span id="cartTitle">سلة التسوق</span></h2>
         <i class="fas fa-times" onclick="toggleCart()"></i>
     </div>
     <div id="cartItems">
         <div class="cart-empty">
             <i class="fas fa-shopping-bag"></i>
-            <p>سلة التسوق فارغة</p>
-            <p style="font-size:0.9rem; color:#999;">أضف منتجاتك المفضلة الآن</p>
+            <p id="cartEmptyText">سلة التسوق فارغة</p>
+            <p style="font-size:0.9rem; color:#999;" id="cartEmptySub">أضف منتجاتك المفضلة الآن</p>
         </div>
     </div>
     <div class="cart-total" id="cartTotal" style="display:none;">
         <div class="total-row">
-            <span>المجموع:</span>
+            <span id="totalLabel">المجموع:</span>
             <span id="totalPrice">$0.00</span>
         </div>
         <button class="checkout-btn" onclick="checkout()">
-            <i class="fas fa-credit-card"></i> إتمام الشراء
+            <i class="fas fa-credit-card"></i> <span id="checkoutBtnText">إتمام الشراء</span>
         </button>
     </div>
 </div>
@@ -986,17 +1069,17 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
-                    <li><a href="#productsSection"><i class="fas fa-gem"></i> العرائس</a></li>
-                    <li><a href="#handmadeSection"><i class="fas fa-hands"></i> Handmade</a></li>
-                    <li><a href="#"><i class="fas fa-heart"></i> المفضلة</a></li>
+                    <li><a href="#"><i class="fas fa-home"></i> <span id="navHome">الرئيسية</span></a></li>
+                    <li><a href="#productsSection"><i class="fas fa-gem"></i> <span id="navProducts">العرائس</span></a></li>
+                    <li><a href="#handmadeSection"><i class="fas fa-hands"></i> <span id="navHandmade">Handmade</span></a></li>
+                    <li><a href="#"><i class="fas fa-heart"></i> <span id="navFavorites">المفضلة</span></a></li>
                     <li class="cart-icon" onclick="toggleCart()">
                         <i class="fas fa-shopping-bag" style="font-size:1.5rem;"></i>
                         <span class="cart-count" id="cartCount">0</span>
                     </li>
                     <li>
                         <button class="admin-toggle" onclick="showLogin()">
-                            <i class="fas fa-user-tie"></i> لوحة التحكم
+                            <i class="fas fa-user-tie"></i> <span id="navAdminBtn">لوحة التحكم</span>
                         </button>
                     </li>
                 </ul>
@@ -1006,8 +1089,8 @@
 
     <section class="hero">
         <div class="container">
-            <h1>🛍️ مرحباً بك في Dis Ney</h1>
-            <p><i class="fas fa-check-circle" style="color:#b45f4a;"></i> اكتشف أجمل العرائس والألعاب الأصلية</p>
+            <h1 id="heroTitle">🛍️ مرحباً بك في Dis Ney</h1>
+            <p id="heroSub"><i class="fas fa-check-circle" style="color:#b45f4a;"></i> اكتشف أجمل العرائس والألعاب الأصلية</p>
         </div>
     </section>
 
@@ -1015,33 +1098,33 @@
     <section id="handmadeSection" class="container handmade-corner">
         <div class="handmade-header">
             <i class="fas fa-hands"></i>
-            <h2>🧵 Handmade Corner <small>– لمسات يدوية فريدة</small></h2>
+            <h2><span id="handmadeTitle">🧵 Handmade Corner</span> <small id="handmadeSub">– لمسات يدوية فريدة</small></h2>
             <i class="fas fa-scissors" style="font-size:2rem; color:#b45f4a; margin-right:auto;"></i>
         </div>
         <div class="handmade-grid">
             <div class="handmade-item">
                 <i class="fas fa-tshirt"></i>
-                <h4>ملابس مطرزة</h4>
-                <p>تفاصيل يدوية على فساتين العرائس</p>
-                <span class="badge-handmade">صنع يدوي</span>
+                <h4 id="hm1Title">ملابس مطرزة</h4>
+                <p id="hm1Desc">تفاصيل يدوية على فساتين العرائس</p>
+                <span class="badge-handmade" id="hm1Badge">صنع يدوي</span>
             </div>
             <div class="handmade-item">
                 <i class="fas fa-bed"></i>
-                <h4>أثاث مصغر</h4>
-                <p>قطع خشبية مصنوعة باليد</p>
-                <span class="badge-handmade">إصدار محدود</span>
+                <h4 id="hm2Title">أثاث مصغر</h4>
+                <p id="hm2Desc">قطع خشبية مصنوعة باليد</p>
+                <span class="badge-handmade" id="hm2Badge">إصدار محدود</span>
             </div>
             <div class="handmade-item">
                 <i class="fas fa-paint-brush"></i>
-                <h4>رسم وتلوين</h4>
-                <p>عرائس مرسومة يدوياً بتفاصيل دقيقة</p>
-                <span class="badge-handmade">حصرية</span>
+                <h4 id="hm3Title">رسم وتلوين</h4>
+                <p id="hm3Desc">عرائس مرسومة يدوياً بتفاصيل دقيقة</p>
+                <span class="badge-handmade" id="hm3Badge">حصرية</span>
             </div>
             <div class="handmade-item">
                 <i class="fas fa-crown"></i>
-                <h4>إكسسوارات يدوية</h4>
-                <p>تيجان وحقائب صغيرة مصنوعة بخبرة</p>
-                <span class="badge-handmade">طلب خاص</span>
+                <h4 id="hm4Title">إكسسوارات يدوية</h4>
+                <p id="hm4Desc">تيجان وحقائب صغيرة مصنوعة بخبرة</p>
+                <span class="badge-handmade" id="hm4Badge">طلب خاص</span>
             </div>
         </div>
     </section>
@@ -1049,7 +1132,7 @@
     <!-- Products -->
     <section id="productsSection" class="container">
         <div class="section-title">
-            <i class="fas fa-star"></i> عرائس وألعاب أصلية
+            <i class="fas fa-star"></i> <span id="productsTitle">عرائس وألعاب أصلية</span>
         </div>
         <div class="product-grid" id="productGrid">
             <!-- Products will be populated by JavaScript -->
@@ -1059,23 +1142,23 @@
     <!-- ===== SOCIAL LINKS ===== -->
     <section class="container">
         <div class="section-title">
-            <i class="fas fa-share-alt"></i> تواصل معنا
+            <i class="fas fa-share-alt"></i> <span id="socialTitle">تواصل معنا</span>
         </div>
         <div class="social-links">
             <a href="https://wa.me/201276364424" target="_blank" class="whatsapp">
-                <i class="fab fa-whatsapp"></i> واتساب
+                <i class="fab fa-whatsapp"></i> <span id="socialWhatsapp">واتساب</span>
             </a>
             <a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank" class="facebook-group">
-                <i class="fas fa-users"></i> جروب الفيسبوك
+                <i class="fas fa-users"></i> <span id="socialGroup">جروب الفيسبوك</span>
             </a>
             <a href="https://www.facebook.com/" target="_blank" class="facebook">
-                <i class="fab fa-facebook"></i> فيسبوك
+                <i class="fab fa-facebook"></i> <span id="socialFacebook">فيسبوك</span>
             </a>
             <a href="https://www.instagram.com/lolitadis?igsh=MXBqNmh2c3NlOXNqMQ==" target="_blank" class="instagram">
-                <i class="fab fa-instagram"></i> إنستجرام
+                <i class="fab fa-instagram"></i> <span id="socialInstagram">إنستجرام</span>
             </a>
             <a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank" class="tiktok">
-                <i class="fab fa-tiktok"></i> تيك توك
+                <i class="fab fa-tiktok"></i> <span id="socialTiktok">تيك توك</span>
             </a>
         </div>
     </section>
@@ -1083,88 +1166,88 @@
     <!-- ===== CUSTOMER DASHBOARD ===== -->
     <section class="container customer-dashboard">
         <div class="section-title">
-            <i class="fas fa-user-circle"></i> حسابي
+            <i class="fas fa-user-circle"></i> <span id="dashboardTitle">حسابي</span>
         </div>
         <div class="dashboard-grid">
             <div class="dashboard-card">
                 <i class="fas fa-id-card"></i>
-                <h3>معلوماتي الشخصية</h3>
-                <p><strong>الاسم:</strong> أحمد محمد</p>
-                <p><strong>البريد:</strong> ahmed@example.com</p>
-                <p><strong>رقم الهاتف:</strong> +966 50 000 0000</p>
-                <button class="btn" style="padding:8px 20px; font-size:0.9rem;"><i class="fas fa-edit"></i> تعديل</button>
+                <h3 id="dashInfoTitle">معلوماتي الشخصية</h3>
+                <p><strong id="dashNameLabel">الاسم:</strong> <span id="dashName">أحمد محمد</span></p>
+                <p><strong id="dashEmailLabel">البريد:</strong> <span id="dashEmail">ahmed@example.com</span></p>
+                <p><strong id="dashPhoneLabel">رقم الهاتف:</strong> <span id="dashPhone">+966 50 000 0000</span></p>
+                <button class="btn" style="padding:8px 20px; font-size:0.9rem;"><i class="fas fa-edit"></i> <span id="dashEditBtn">تعديل</span></button>
             </div>
             <div class="dashboard-card">
                 <i class="fas fa-clipboard-list"></i>
-                <h3>طلباتي</h3>
+                <h3 id="dashOrdersTitle">طلباتي</h3>
                 <div class="order-item">
-                    <span>#ORD-001 - أميرة الأحلام</span>
-                    <span class="status delivered"><i class="fas fa-check-circle"></i> تم التسليم</span>
+                    <span id="order1">#ORD-001 - أميرة الأحلام</span>
+                    <span class="status delivered"><i class="fas fa-check-circle"></i> <span id="order1Status">تم التسليم</span></span>
                 </div>
                 <div class="order-item">
-                    <span>#ORD-002 - دب لطيف</span>
-                    <span class="status pending"><i class="fas fa-clock"></i> قيد المعالجة</span>
+                    <span id="order2">#ORD-002 - دب لطيف</span>
+                    <span class="status pending"><i class="fas fa-clock"></i> <span id="order2Status">قيد المعالجة</span></span>
                 </div>
-                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#4a7a5a;"><i class="fas fa-eye"></i> عرض كل الطلبات</button>
+                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#4a7a5a;"><i class="fas fa-eye"></i> <span id="dashViewOrders">عرض كل الطلبات</span></button>
             </div>
             <div class="dashboard-card">
                 <i class="fas fa-heart" style="color:#e07a5f;"></i>
-                <h3>قائمة المفضلة</h3>
-                <p>🔹 عرسة كلاسيك</p>
-                <p>🔹 دمية ناعمة</p>
-                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#a65555;"><i class="fas fa-heart"></i> عرض المفضلة</button>
+                <h3 id="dashFavTitle">قائمة المفضلة</h3>
+                <p id="fav1">🔹 عرسة كلاسيك</p>
+                <p id="fav2">🔹 دمية ناعمة</p>
+                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#a65555;"><i class="fas fa-heart"></i> <span id="dashViewFav">عرض المفضلة</span></button>
             </div>
             <div class="dashboard-card">
                 <i class="fas fa-coins"></i>
-                <h3>نقاط الولاء</h3>
-                <p style="font-size:2.5rem; font-weight:700; color:#b45f4a;">450</p>
-                <p>نقطة <span class="badge">استبدل بخصم</span></p>
-                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#d4a24e;"><i class="fas fa-gift"></i> استبدال النقاط</button>
+                <h3 id="dashPointsTitle">نقاط الولاء</h3>
+                <p style="font-size:2.5rem; font-weight:700; color:#b45f4a;" id="pointsValue">450</p>
+                <p><span id="pointsLabel">نقطة</span> <span class="badge" id="pointsBadge">استبدل بخصم</span></p>
+                <button class="btn" style="padding:8px 20px; font-size:0.9rem; background:#d4a24e;"><i class="fas fa-gift"></i> <span id="dashRedeem">استبدال النقاط</span></button>
             </div>
         </div>
     </section>
 
     <!-- Newsletter -->
     <section class="container newsletter">
-        <h3><i class="fas fa-envelope-open-text"></i> اشترك واحصل على خصم 10%</h3>
-        <p style="color:#4d2b1e;">أول من يعرف عن الوصلات الجديدة والعروض الحصرية</p>
-        <input type="email" placeholder="بريدك الإلكتروني" />
-        <button class="btn" style="background:#b45f4a;" onclick="subscribe()"><i class="fas fa-paper-plane"></i> اشتراك</button>
+        <h3><i class="fas fa-envelope-open-text"></i> <span id="newsletterTitle">اشترك واحصل على خصم 10%</span></h3>
+        <p style="color:#4d2b1e;" id="newsletterSub">أول من يعرف عن الوصلات الجديدة والعروض الحصرية</p>
+        <input type="email" placeholder="بريدك الإلكتروني" id="newsletterInput" />
+        <button class="btn" style="background:#b45f4a;" onclick="subscribe()"><i class="fas fa-paper-plane"></i> <span id="newsletterBtn">اشتراك</span></button>
     </section>
 
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <div><h4><i class="fas fa-crown"></i> Dis Ney</h4><p style="color:#dbb8ab;">متجر العرائس والألعاب الأصلية</p></div>
-                <div><h4>روابط</h4><ul><li><a href="#">الرئيسية</a></li><li><a href="#">العرائس</a></li><li><a href="#">Handmade</a></li></ul></div>
-                <div><h4>حساباتنا</h4>
+                <div><h4><i class="fas fa-crown"></i> <span id="footerBrand">Dis Ney</span></h4><p style="color:#dbb8ab;" id="footerDesc">متجر العرائس والألعاب الأصلية</p></div>
+                <div><h4 id="footerLinks">روابط</h4><ul><li><a href="#" id="footerHome">الرئيسية</a></li><li><a href="#" id="footerProducts">العرائس</a></li><li><a href="#" id="footerHandmade">Handmade</a></li></ul></div>
+                <div><h4 id="footerSocial">حساباتنا</h4>
                     <ul>
-                        <li><a href="https://www.instagram.com/lolitadis?igsh=MXBqNmh2c3NlOXNqMQ==" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
-                        <li><a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="https://www.instagram.com/lolitadis?igsh=MXBqNmh2c3NlOXNqMQ==" target="_blank"><i class="fab fa-instagram"></i> <span id="footerInsta">Instagram</span></a></li>
+                        <li><a href="https://vm.tiktok.com/ZS9jxQ8nGmLo9-wokip/" target="_blank"><i class="fab fa-tiktok"></i> <span id="footerTiktok">TikTok</span></a></li>
+                        <li><a href="https://www.facebook.com/share/g/1ALFCHBY5V/" target="_blank"><i class="fab fa-facebook"></i> <span id="footerFb">Facebook</span></a></li>
                     </ul>
                 </div>
-                <div><h4>تواصل</h4>
+                <div><h4 id="footerContact">تواصل</h4>
                     <ul>
-                        <li><i class="fas fa-phone"></i> <a href="https://wa.me/201276364424" target="_blank">+20 127 636 4424</a></li>
-                        <li><i class="fas fa-envelope"></i> info@disney-store.com</li>
+                        <li><i class="fas fa-phone"></i> <a href="https://wa.me/201276364424" target="_blank" id="footerPhone">+20 127 636 4424</a></li>
+                        <li><i class="fas fa-envelope"></i> <span id="footerEmail">info@disney-store.com</span></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright"><p>© 2026 Dis Ney – جميع الحقوق محفوظة</p></div>
+            <div class="copyright"><p id="footerCopy">© 2026 Dis Ney – جميع الحقوق محفوظة</p></div>
         </div>
     </footer>
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== لوحة تحكم المالك (تظهر فقط بعد تسجيل الدخول) ===== -->
+<!-- ===== لوحة تحكم المالك ===== -->
 <!-- ============================================================ -->
 <div class="admin-panel" id="adminPanel">
     <div class="container">
         <div class="admin-header">
-            <h3><i class="fas fa-user-tie"></i> لوحة تحكم المالك</h3>
+            <h3><i class="fas fa-user-tie"></i> <span id="adminTitle">لوحة تحكم المالك</span></h3>
             <button class="close-admin" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                <i class="fas fa-sign-out-alt"></i> <span id="adminLogout">تسجيل الخروج</span>
             </button>
         </div>
 
@@ -1173,31 +1256,42 @@
             <div class="stat-box">
                 <i class="fas fa-box"></i>
                 <h4 id="adminProductCount">0</h4>
-                <p>إجمالي المنتجات</p>
+                <p id="statProducts">إجمالي المنتجات</p>
             </div>
             <div class="stat-box">
                 <i class="fas fa-shopping-cart"></i>
                 <h4 id="adminOrderCount">0</h4>
-                <p>طلبات جديدة</p>
+                <p id="statOrders">طلبات جديدة</p>
             </div>
             <div class="stat-box">
                 <i class="fas fa-users"></i>
                 <h4>89</h4>
-                <p>زبائن مسجلين</p>
+                <p id="statCustomers">زبائن مسجلين</p>
             </div>
             <div class="stat-box">
                 <i class="fas fa-dollar-sign"></i>
                 <h4 id="adminRevenue">$0.00</h4>
-                <p>إيرادات هذا الشهر</p>
+                <p id="statRevenue">إيرادات هذا الشهر</p>
             </div>
+        </div>
+
+        <!-- ===== إدارة المسميات ===== -->
+        <div class="labels-manager">
+            <h4><i class="fas fa-tags"></i> <span id="labelsManagerTitle">إدارة المسميات والعناوين</span></h4>
+            <div id="labelsContainer">
+                <!-- سيتم تعبئتها بواسطة جافا سكريبت -->
+            </div>
+            <button class="add-product-btn" style="background:#d4a24e; margin-top:15px;" onclick="resetLabels()">
+                <i class="fas fa-undo"></i> <span id="resetLabelsBtn">استعادة المسميات الافتراضية</span>
+            </button>
         </div>
 
         <!-- إدارة المنتجات -->
         <div class="admin-products">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h4><i class="fas fa-edit"></i> إدارة المنتجات</h4>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                <h4><i class="fas fa-edit"></i> <span id="adminManageProducts">إدارة المنتجات</span></h4>
                 <button class="add-product-btn" onclick="addProduct()">
-                    <i class="fas fa-plus"></i> إضافة منتج جديد
+                    <i class="fas fa-plus"></i> <span id="adminAddProduct">إضافة منتج جديد</span>
                 </button>
             </div>
             <div id="adminProductList">
@@ -1218,19 +1312,358 @@
     ];
     let nextId = 5;
 
+    // ===== LABELS DATA (المسميات) =====
+    let labels = {
+        // الهيدر
+        navHome: 'الرئيسية',
+        navProducts: 'العرائس',
+        navHandmade: 'Handmade',
+        navFavorites: 'المفضلة',
+        navAdminBtn: 'لوحة التحكم',
+        
+        // الهيرو
+        heroTitle: '🛍️ مرحباً بك في Dis Ney',
+        heroSub: 'اكتشف أجمل العرائس والألعاب الأصلية',
+        
+        // Handmade
+        handmadeTitle: '🧵 Handmade Corner',
+        handmadeSub: '– لمسات يدوية فريدة',
+        hm1Title: 'ملابس مطرزة',
+        hm1Desc: 'تفاصيل يدوية على فساتين العرائس',
+        hm1Badge: 'صنع يدوي',
+        hm2Title: 'أثاث مصغر',
+        hm2Desc: 'قطع خشبية مصنوعة باليد',
+        hm2Badge: 'إصدار محدود',
+        hm3Title: 'رسم وتلوين',
+        hm3Desc: 'عرائس مرسومة يدوياً بتفاصيل دقيقة',
+        hm3Badge: 'حصرية',
+        hm4Title: 'إكسسوارات يدوية',
+        hm4Desc: 'تيجان وحقائب صغيرة مصنوعة بخبرة',
+        hm4Badge: 'طلب خاص',
+        
+        // المنتجات
+        productsTitle: 'عرائس وألعاب أصلية',
+        
+        // السلة
+        cartTitle: 'سلة التسوق',
+        cartEmptyText: 'سلة التسوق فارغة',
+        cartEmptySub: 'أضف منتجاتك المفضلة الآن',
+        totalLabel: 'المجموع:',
+        checkoutBtnText: 'إتمام الشراء',
+        
+        // السوشيال ميديا
+        socialTitle: 'تواصل معنا',
+        socialWhatsapp: 'واتساب',
+        socialGroup: 'جروب الفيسبوك',
+        socialFacebook: 'فيسبوك',
+        socialInstagram: 'إنستجرام',
+        socialTiktok: 'تيك توك',
+        
+        // داشبورد الزبون
+        dashboardTitle: 'حسابي',
+        dashInfoTitle: 'معلوماتي الشخصية',
+        dashNameLabel: 'الاسم:',
+        dashEmailLabel: 'البريد:',
+        dashPhoneLabel: 'رقم الهاتف:',
+        dashEditBtn: 'تعديل',
+        dashOrdersTitle: 'طلباتي',
+        order1: '#ORD-001 - أميرة الأحلام',
+        order1Status: 'تم التسليم',
+        order2: '#ORD-002 - دب لطيف',
+        order2Status: 'قيد المعالجة',
+        dashViewOrders: 'عرض كل الطلبات',
+        dashFavTitle: 'قائمة المفضلة',
+        fav1: '🔹 عرسة كلاسيك',
+        fav2: '🔹 دمية ناعمة',
+        dashViewFav: 'عرض المفضلة',
+        dashPointsTitle: 'نقاط الولاء',
+        pointsLabel: 'نقطة',
+        pointsBadge: 'استبدل بخصم',
+        dashRedeem: 'استبدال النقاط',
+        
+        // النشرة البريدية
+        newsletterTitle: 'اشترك واحصل على خصم 10%',
+        newsletterSub: 'أول من يعرف عن الوصلات الجديدة والعروض الحصرية',
+        newsletterBtn: 'اشتراك',
+        newsletterInput: 'بريدك الإلكتروني',
+        
+        // الفوتر
+        footerBrand: 'Dis Ney',
+        footerDesc: 'متجر العرائس والألعاب الأصلية',
+        footerLinks: 'روابط',
+        footerHome: 'الرئيسية',
+        footerProducts: 'العرائس',
+        footerHandmade: 'Handmade',
+        footerSocial: 'حساباتنا',
+        footerInsta: 'Instagram',
+        footerTiktok: 'TikTok',
+        footerFb: 'Facebook',
+        footerContact: 'تواصل',
+        footerPhone: '+20 127 636 4424',
+        footerEmail: 'info@disney-store.com',
+        footerCopy: '© 2026 Dis Ney – جميع الحقوق محفوظة',
+        
+        // الأدمن
+        adminTitle: 'لوحة تحكم المالك',
+        adminLogout: 'تسجيل الخروج',
+        statProducts: 'إجمالي المنتجات',
+        statOrders: 'طلبات جديدة',
+        statCustomers: 'زبائن مسجلين',
+        statRevenue: 'إيرادات هذا الشهر',
+        labelsManagerTitle: 'إدارة المسميات والعناوين',
+        resetLabelsBtn: 'استعادة المسميات الافتراضية',
+        adminManageProducts: 'إدارة المنتجات',
+        adminAddProduct: 'إضافة منتج جديد'
+    };
+
     // ===== CART =====
     let cart = [];
     let orderCount = 0;
     let totalRevenue = 0;
     let isAdmin = false;
 
+    // ===== تطبيق المسميات على الواجهة =====
+    function applyLabels() {
+        // الهيدر
+        document.getElementById('navHome').textContent = labels.navHome;
+        document.getElementById('navProducts').textContent = labels.navProducts;
+        document.getElementById('navHandmade').textContent = labels.navHandmade;
+        document.getElementById('navFavorites').textContent = labels.navFavorites;
+        document.getElementById('navAdminBtn').textContent = labels.navAdminBtn;
+        
+        // الهيرو
+        document.getElementById('heroTitle').textContent = labels.heroTitle;
+        document.getElementById('heroSub').innerHTML = `<i class="fas fa-check-circle" style="color:#b45f4a;"></i> ${labels.heroSub}`;
+        
+        // Handmade
+        document.getElementById('handmadeTitle').textContent = labels.handmadeTitle;
+        document.getElementById('handmadeSub').textContent = labels.handmadeSub;
+        document.getElementById('hm1Title').textContent = labels.hm1Title;
+        document.getElementById('hm1Desc').textContent = labels.hm1Desc;
+        document.getElementById('hm1Badge').textContent = labels.hm1Badge;
+        document.getElementById('hm2Title').textContent = labels.hm2Title;
+        document.getElementById('hm2Desc').textContent = labels.hm2Desc;
+        document.getElementById('hm2Badge').textContent = labels.hm2Badge;
+        document.getElementById('hm3Title').textContent = labels.hm3Title;
+        document.getElementById('hm3Desc').textContent = labels.hm3Desc;
+        document.getElementById('hm3Badge').textContent = labels.hm3Badge;
+        document.getElementById('hm4Title').textContent = labels.hm4Title;
+        document.getElementById('hm4Desc').textContent = labels.hm4Desc;
+        document.getElementById('hm4Badge').textContent = labels.hm4Badge;
+        
+        // المنتجات
+        document.getElementById('productsTitle').textContent = labels.productsTitle;
+        
+        // السلة
+        document.getElementById('cartTitle').textContent = labels.cartTitle;
+        document.getElementById('cartEmptyText').textContent = labels.cartEmptyText;
+        document.getElementById('cartEmptySub').textContent = labels.cartEmptySub;
+        document.getElementById('totalLabel').textContent = labels.totalLabel;
+        document.getElementById('checkoutBtnText').textContent = labels.checkoutBtnText;
+        
+        // السوشيال ميديا
+        document.getElementById('socialTitle').textContent = labels.socialTitle;
+        document.getElementById('socialWhatsapp').textContent = labels.socialWhatsapp;
+        document.getElementById('socialGroup').textContent = labels.socialGroup;
+        document.getElementById('socialFacebook').textContent = labels.socialFacebook;
+        document.getElementById('socialInstagram').textContent = labels.socialInstagram;
+        document.getElementById('socialTiktok').textContent = labels.socialTiktok;
+        
+        // داشبورد الزبون
+        document.getElementById('dashboardTitle').textContent = labels.dashboardTitle;
+        document.getElementById('dashInfoTitle').textContent = labels.dashInfoTitle;
+        document.getElementById('dashNameLabel').textContent = labels.dashNameLabel;
+        document.getElementById('dashEmailLabel').textContent = labels.dashEmailLabel;
+        document.getElementById('dashPhoneLabel').textContent = labels.dashPhoneLabel;
+        document.getElementById('dashEditBtn').textContent = labels.dashEditBtn;
+        document.getElementById('dashOrdersTitle').textContent = labels.dashOrdersTitle;
+        document.getElementById('order1').textContent = labels.order1;
+        document.getElementById('order1Status').textContent = labels.order1Status;
+        document.getElementById('order2').textContent = labels.order2;
+        document.getElementById('order2Status').textContent = labels.order2Status;
+        document.getElementById('dashViewOrders').textContent = labels.dashViewOrders;
+        document.getElementById('dashFavTitle').textContent = labels.dashFavTitle;
+        document.getElementById('fav1').textContent = labels.fav1;
+        document.getElementById('fav2').textContent = labels.fav2;
+        document.getElementById('dashViewFav').textContent = labels.dashViewFav;
+        document.getElementById('dashPointsTitle').textContent = labels.dashPointsTitle;
+        document.getElementById('pointsLabel').textContent = labels.pointsLabel;
+        document.getElementById('pointsBadge').textContent = labels.pointsBadge;
+        document.getElementById('dashRedeem').textContent = labels.dashRedeem;
+        
+        // النشرة البريدية
+        document.getElementById('newsletterTitle').textContent = labels.newsletterTitle;
+        document.getElementById('newsletterSub').textContent = labels.newsletterSub;
+        document.getElementById('newsletterBtn').textContent = labels.newsletterBtn;
+        document.getElementById('newsletterInput').placeholder = labels.newsletterInput;
+        
+        // الفوتر
+        document.getElementById('footerBrand').textContent = labels.footerBrand;
+        document.getElementById('footerDesc').textContent = labels.footerDesc;
+        document.getElementById('footerLinks').textContent = labels.footerLinks;
+        document.getElementById('footerHome').textContent = labels.footerHome;
+        document.getElementById('footerProducts').textContent = labels.footerProducts;
+        document.getElementById('footerHandmade').textContent = labels.footerHandmade;
+        document.getElementById('footerSocial').textContent = labels.footerSocial;
+        document.getElementById('footerInsta').textContent = labels.footerInsta;
+        document.getElementById('footerTiktok').textContent = labels.footerTiktok;
+        document.getElementById('footerFb').textContent = labels.footerFb;
+        document.getElementById('footerContact').textContent = labels.footerContact;
+        document.getElementById('footerPhone').textContent = labels.footerPhone;
+        document.getElementById('footerEmail').textContent = labels.footerEmail;
+        document.getElementById('footerCopy').textContent = labels.footerCopy;
+        
+        // الأدمن
+        document.getElementById('adminTitle').textContent = labels.adminTitle;
+        document.getElementById('adminLogout').textContent = labels.adminLogout;
+        document.getElementById('statProducts').textContent = labels.statProducts;
+        document.getElementById('statOrders').textContent = labels.statOrders;
+        document.getElementById('statCustomers').textContent = labels.statCustomers;
+        document.getElementById('statRevenue').textContent = labels.statRevenue;
+        document.getElementById('labelsManagerTitle').textContent = labels.labelsManagerTitle;
+        document.getElementById('resetLabelsBtn').textContent = labels.resetLabelsBtn;
+        document.getElementById('adminManageProducts').textContent = labels.adminManageProducts;
+        document.getElementById('adminAddProduct').textContent = labels.adminAddProduct;
+        
+        // تحديث إدارة المسميات
+        renderLabelsManager();
+    }
+
+    // ===== عرض إدارة المسميات في لوحة التحكم =====
+    function renderLabelsManager() {
+        const container = document.getElementById('labelsContainer');
+        if (!container) return;
+        
+        const labelKeys = Object.keys(labels);
+        container.innerHTML = labelKeys.map(key => `
+            <div class="label-item">
+                <span class="label-key">${key}</span>
+                <input type="text" id="label_${key}" value="${labels[key]}" />
+                <button class="save-label-btn" onclick="saveLabel('${key}')">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // ===== حفظ مسمى معين =====
+    function saveLabel(key) {
+        const input = document.getElementById(`label_${key}`);
+        if (!input) return;
+        const newValue = input.value.trim();
+        if (newValue) {
+            labels[key] = newValue;
+            applyLabels();
+            showNotification('✅ تم الحفظ', `تم تحديث المسمى: ${key}`);
+        } else {
+            alert('لا يمكن ترك المسمى فارغاً!');
+        }
+    }
+
+    // ===== استعادة المسميات الافتراضية =====
+    function resetLabels() {
+        if (!confirm('هل أنت متأكد من استعادة جميع المسميات إلى الوضع الافتراضي؟')) return;
+        
+        // إعادة تعيين المسميات
+        labels = {
+            navHome: 'الرئيسية',
+            navProducts: 'العرائس',
+            navHandmade: 'Handmade',
+            navFavorites: 'المفضلة',
+            navAdminBtn: 'لوحة التحكم',
+            heroTitle: '🛍️ مرحباً بك في Dis Ney',
+            heroSub: 'اكتشف أجمل العرائس والألعاب الأصلية',
+            handmadeTitle: '🧵 Handmade Corner',
+            handmadeSub: '– لمسات يدوية فريدة',
+            hm1Title: 'ملابس مطرزة',
+            hm1Desc: 'تفاصيل يدوية على فساتين العرائس',
+            hm1Badge: 'صنع يدوي',
+            hm2Title: 'أثاث مصغر',
+            hm2Desc: 'قطع خشبية مصنوعة باليد',
+            hm2Badge: 'إصدار محدود',
+            hm3Title: 'رسم وتلوين',
+            hm3Desc: 'عرائس مرسومة يدوياً بتفاصيل دقيقة',
+            hm3Badge: 'حصرية',
+            hm4Title: 'إكسسوارات يدوية',
+            hm4Desc: 'تيجان وحقائب صغيرة مصنوعة بخبرة',
+            hm4Badge: 'طلب خاص',
+            productsTitle: 'عرائس وألعاب أصلية',
+            cartTitle: 'سلة التسوق',
+            cartEmptyText: 'سلة التسوق فارغة',
+            cartEmptySub: 'أضف منتجاتك المفضلة الآن',
+            totalLabel: 'المجموع:',
+            checkoutBtnText: 'إتمام الشراء',
+            socialTitle: 'تواصل معنا',
+            socialWhatsapp: 'واتساب',
+            socialGroup: 'جروب الفيسبوك',
+            socialFacebook: 'فيسبوك',
+            socialInstagram: 'إنستجرام',
+            socialTiktok: 'تيك توك',
+            dashboardTitle: 'حسابي',
+            dashInfoTitle: 'معلوماتي الشخصية',
+            dashNameLabel: 'الاسم:',
+            dashEmailLabel: 'البريد:',
+            dashPhoneLabel: 'رقم الهاتف:',
+            dashEditBtn: 'تعديل',
+            dashOrdersTitle: 'طلباتي',
+            order1: '#ORD-001 - أميرة الأحلام',
+            order1Status: 'تم التسليم',
+            order2: '#ORD-002 - دب لطيف',
+            order2Status: 'قيد المعالجة',
+            dashViewOrders: 'عرض كل الطلبات',
+            dashFavTitle: 'قائمة المفضلة',
+            fav1: '🔹 عرسة كلاسيك',
+            fav2: '🔹 دمية ناعمة',
+            dashViewFav: 'عرض المفضلة',
+            dashPointsTitle: 'نقاط الولاء',
+            pointsLabel: 'نقطة',
+            pointsBadge: 'استبدل بخصم',
+            dashRedeem: 'استبدال النقاط',
+            newsletterTitle: 'اشترك واحصل على خصم 10%',
+            newsletterSub: 'أول من يعرف عن الوصلات الجديدة والعروض الحصرية',
+            newsletterBtn: 'اشتراك',
+            newsletterInput: 'بريدك الإلكتروني',
+            footerBrand: 'Dis Ney',
+            footerDesc: 'متجر العرائس والألعاب الأصلية',
+            footerLinks: 'روابط',
+            footerHome: 'الرئيسية',
+            footerProducts: 'العرائس',
+            footerHandmade: 'Handmade',
+            footerSocial: 'حساباتنا',
+            footerInsta: 'Instagram',
+            footerTiktok: 'TikTok',
+            footerFb: 'Facebook',
+            footerContact: 'تواصل',
+            footerPhone: '+20 127 636 4424',
+            footerEmail: 'info@disney-store.com',
+            footerCopy: '© 2026 Dis Ney – جميع الحقوق محفوظة',
+            adminTitle: 'لوحة تحكم المالك',
+            adminLogout: 'تسجيل الخروج',
+            statProducts: 'إجمالي المنتجات',
+            statOrders: 'طلبات جديدة',
+            statCustomers: 'زبائن مسجلين',
+            statRevenue: 'إيرادات هذا الشهر',
+            labelsManagerTitle: 'إدارة المسميات والعناوين',
+            resetLabelsBtn: 'استعادة المسميات الافتراضية',
+            adminManageProducts: 'إدارة المنتجات',
+            adminAddProduct: 'إضافة منتج جديد'
+        };
+        
+        applyLabels();
+        showNotification('✅ تم الاستعادة', 'تم استعادة جميع المسميات إلى الوضع الافتراضي');
+    }
+
     // ===== LOGIN =====
     function showLogin() {
-        document.getElementById('loginOverlay').classList.remove('hidden');
+        document.getElementById('loginOverlay').classList.add('active');
         document.getElementById('loginError').classList.remove('show');
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
         document.getElementById('loginUsername').focus();
+    }
+
+    function closeLogin() {
+        document.getElementById('loginOverlay').classList.remove('active');
     }
 
     function handleLogin() {
@@ -1239,10 +1672,11 @@
 
         if (username === 'lolo' && password === '113114') {
             isAdmin = true;
-            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('loginOverlay').classList.remove('active');
             document.getElementById('adminPanel').classList.add('active');
             renderAdminProducts();
             updateAdminStats();
+            renderLabelsManager();
             showNotification('👑 مرحباً بك', 'تم تسجيل الدخول بنجاح إلى لوحة التحكم');
         } else {
             document.getElementById('loginError').classList.add('show');
@@ -1255,7 +1689,7 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             const overlay = document.getElementById('loginOverlay');
-            if (!overlay.classList.contains('hidden')) {
+            if (overlay.classList.contains('active')) {
                 handleLogin();
             }
         }
@@ -1284,7 +1718,7 @@
         `).join('');
     }
 
-    // ===== RENDER ADMIN PRODUCTS (عرض المنتجات في لوحة التحكم) =====
+    // ===== RENDER ADMIN PRODUCTS =====
     function renderAdminProducts() {
         const list = document.getElementById('adminProductList');
         if (!list) return;
@@ -1413,8 +1847,8 @@
             cartItems.innerHTML = `
                 <div class="cart-empty">
                     <i class="fas fa-shopping-bag"></i>
-                    <p>سلة التسوق فارغة</p>
-                    <p style="font-size:0.9rem; color:#999;">أضف منتجاتك المفضلة الآن</p>
+                    <p>${labels.cartEmptyText}</p>
+                    <p style="font-size:0.9rem; color:#999;">${labels.cartEmptySub}</p>
                 </div>
             `;
             cartTotal.style.display = 'none';
@@ -1509,10 +1943,11 @@
     renderProducts();
     updateCart();
     updateAdminStats();
+    applyLabels();
 
     console.log('👑 Dis Ney – نظام متكامل للمالك والزبائن');
     console.log('🔐 تسجيل الدخول للمالك: lolo / 113114');
-    console.log('📦 الزبائن يمكنهم التصفح والشراء فقط');
+    console.log('📝 المالك يمكنه تغيير جميع المسميات من لوحة التحكم');
 </script>
 
 </body>
