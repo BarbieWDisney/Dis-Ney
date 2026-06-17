@@ -98,7 +98,7 @@
         }
 
         /* ============================================================
-           GLASS MORPHISM UTILITY
+           GLASS MORPHISM
            ============================================================ */
         .glass {
             background: rgba(255, 255, 255, 0.72);
@@ -131,15 +131,6 @@
             }
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-
         @keyframes pulse-glow {
             0%,
             100% {
@@ -158,6 +149,26 @@
             to {
                 transform: translateX(0);
                 opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-8px);
+            }
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(8px);
             }
         }
 
@@ -324,6 +335,7 @@
             box-shadow: 0 2px 12px rgba(224, 122, 95, 0.5);
         }
 
+        /* ===== زر لوحة التحكم - مخفي عن الزوار ===== */
         .dashboard-btn-header {
             background: var(--gold-gradient);
             color: var(--dark);
@@ -343,6 +355,25 @@
         .dashboard-btn-header:hover {
             transform: scale(1.05) translateY(-2px);
             box-shadow: 0 12px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        /* ===== زر الدخول السريع (مخفي) ===== */
+        .secret-admin-trigger {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 12px;
+            height: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 50;
+            opacity: 0.01;
+            font-size: 0.01px;
+        }
+
+        .secret-admin-trigger:hover {
+            opacity: 0.05;
         }
 
         /* ============================================================
@@ -1062,6 +1093,596 @@
         }
 
         /* ============================================================
+           CART SIDEBAR
+           ============================================================ */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .cart-overlay.active {
+            display: flex;
+        }
+
+        .cart-sidebar {
+            background: #fff;
+            width: 420px;
+            max-width: 90%;
+            height: 100%;
+            padding: 28px 22px;
+            overflow-y: auto;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 0.3s ease;
+            border-radius: 30px 0 0 30px;
+        }
+
+        .cart-sidebar .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f0eae7;
+            padding-bottom: 16px;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .cart-sidebar .close-cart {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cart-sidebar .close-cart:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0eae7;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            object-fit: cover;
+            background: #f0eae7;
+        }
+
+        .cart-item .item-info {
+            flex: 1;
+        }
+
+        .cart-item .item-name {
+            font-weight: 700;
+        }
+
+        .cart-item .item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item .qty-control button {
+            background: #f0eae7;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cart-item .qty-control button:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .cart-item .remove-item {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .cart-item .remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 24px 0 16px;
+            text-align: left;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold-gradient);
+            color: var(--dark);
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .checkout-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        /* ============================================================
+           DASHBOARD (محمي)
+           ============================================================ */
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            z-index: 3000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .dashboard-overlay.active {
+            display: flex;
+        }
+
+        .dashboard-sidebar {
+            background: #1e1a17;
+            color: #eee;
+            width: 500px;
+            max-width: 92%;
+            height: 100%;
+            padding: 28px 22px;
+            overflow-y: auto;
+            border-radius: 30px 0 0 30px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+            animation: slideInRight 0.3s ease;
+        }
+
+        .dashboard-sidebar .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3d2b22;
+            padding-bottom: 16px;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .dashboard-sidebar .close-dash {
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dashboard-sidebar .close-dash:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .dash-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 24px 0;
+        }
+
+        .dash-stat-card {
+            background: #2d1f18;
+            padding: 18px 12px;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid #3d2b22;
+        }
+
+        .dash-stat-card .num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .dash-stat-card .label {
+            opacity: 0.7;
+        }
+
+        .dash-section {
+            margin: 28px 0;
+        }
+
+        .dash-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--gold);
+        }
+
+        .dash-product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2d1f18;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            margin: 6px 0;
+        }
+
+        .dash-product-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+            object-fit: cover;
+        }
+
+        .dash-product-item .pname {
+            flex: 1;
+            margin: 0 12px;
+        }
+
+        .dash-product-item button {
+            background: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .dash-product-item .edit-btn {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        .dash-product-item .del-btn {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .dash-product-item button:hover {
+            transform: scale(1.05);
+        }
+
+        .add-product-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .add-product-form input {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            border-radius: var(--radius-full);
+            border: none;
+            background: #2d1f18;
+            color: #fff;
+            font-family: var(--font);
+        }
+
+        .add-product-form input::placeholder {
+            color: #aaa;
+        }
+
+        .add-product-form button {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .dash-text-list li {
+            background: #2d1f18;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dash-text-list li span {
+            min-width: 80px;
+        }
+
+        .dash-text-list li input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: var(--font);
+            flex: 1;
+            margin: 0 12px;
+        }
+
+        .dash-text-list li .save-text {
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.02);
+            background: #c0392b;
+        }
+
+        .restore-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+
+        .restore-btn:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* ============================================================
+           IMAGE MANAGEMENT
+           ============================================================ */
+        .image-upload-area {
+            border: 2px dashed #3d2b22;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 12px 0;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .image-upload-area i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .image-upload-area input {
+            display: none;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .image-grid .image-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+        }
+
+        .image-grid .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-grid .image-item .delete-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(231, 76, 60, 0.9);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clear-images-btn {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        /* ============================================================
+           LOGIN - محمي بطبقتين
+           ============================================================ */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 4000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-overlay.active {
+            display: flex;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 40px 32px;
+            border-radius: var(--radius-lg);
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-box .lock-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .login-box h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .login-box .subtitle {
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: var(--radius-full);
+            border: 2px solid #f0eae7;
+            margin: 8px 0;
+            font-family: var(--font);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .login-box input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .login-box .login-submit {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            width: 100%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .login-box .login-submit:hover {
+            background: var(--dark);
+        }
+
+        .login-error {
+            color: #e74c3c;
+            margin: 8px 0;
+            font-weight: 600;
+            animation: shake 0.5s ease;
+        }
+
+        .login-box .attempts-remaining {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .login-box .attempts-remaining .warn {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+
+        /* ============================================================
+           SECURITY LOCK
+           ============================================================ */
+        .security-lock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            text-align: center;
+        }
+
+        .security-lock.active {
+            display: flex;
+        }
+
+        .security-lock .lock-icon {
+            font-size: 5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .security-lock h2 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .security-lock p {
+            opacity: 0.7;
+            max-width: 400px;
+        }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 1024px) {
@@ -1192,6 +1813,20 @@
             .hero-visual .floating-items .item:nth-child(4) {
                 display: none;
             }
+
+            .dashboard-sidebar {
+                width: 100%;
+                border-radius: 30px 30px 0 0;
+                max-height: 90%;
+                margin-top: auto;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                border-radius: 30px 30px 0 0;
+                max-height: 90%;
+                margin-top: auto;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1251,6 +1886,14 @@
             .hero-stats .stat .label {
                 font-size: 0.7rem;
             }
+
+            .dash-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .login-box {
+                padding: 28px 20px;
+            }
         }
     </style>
 </head>
@@ -1277,13 +1920,17 @@
                         <i class="fas fa-shopping-bag"></i>
                         <span class="cart-badge" id="cartCount">0</span>
                     </button>
-                    <button class="dashboard-btn-header" id="openDashboardBtn">
+                    <!-- زر لوحة التحكم - يظهر فقط عند تسجيل الدخول -->
+                    <button class="dashboard-btn-header" id="openDashboardBtn" style="display:none;">
                         <i class="fas fa-user-cog"></i> لوحة التحكم
                     </button>
                 </div>
             </nav>
         </div>
     </header>
+
+    <!-- ===== زر الدخول السريع - نقرات مخفية ===== -->
+    <button class="secret-admin-trigger" id="secretTrigger" title=""></button>
 
     <!-- ============================================================
     HERO
@@ -1460,7 +2107,7 @@
     </div>
 
     <!-- ============================================================
-    DASHBOARD SIDEBAR
+    DASHBOARD SIDEBAR (محمي)
     ============================================================ -->
     <div class="dashboard-overlay" id="dashboardOverlay">
         <div class="dashboard-sidebar">
@@ -1527,22 +2174,109 @@
     </div>
 
     <!-- ============================================================
-    LOGIN OVERLAY
+    LOGIN OVERLAY (طبقة الحماية الأولى)
     ============================================================ -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
-            <h2><i class="fas fa-lock"></i> تسجيل الدخول</h2>
+            <div class="lock-icon"><i class="fas fa-lock"></i></div>
+            <h2>تسجيل الدخول</h2>
+            <p class="subtitle">🔐 هذه المنطقة محمية بكلمة مرور</p>
             <input type="text" id="loginUser" placeholder="اسم المستخدم" />
             <input type="password" id="loginPass" placeholder="كلمة المرور" />
             <div class="login-error" id="loginError"></div>
-            <button class="login-submit" id="loginSubmit">دخول</button>
+            <div class="attempts-remaining" id="attemptsRemaining"></div>
+            <button class="login-submit" id="loginSubmit">
+                <i class="fas fa-key"></i> دخول
+            </button>
         </div>
+    </div>
+
+    <!-- ============================================================
+    SECURITY LOCK (طبقة الحماية الثانية - بعد 5 محاولات فاشلة)
+    ============================================================ -->
+    <div class="security-lock" id="securityLock">
+        <div class="lock-icon"><i class="fas fa-shield-halved"></i></div>
+        <h2>⛔ تم قفل الوصول</h2>
+        <p>تم تجاوز عدد المحاولات المسموحة. الرجاء المحاولة بعد 15 دقيقة.</p>
+        <p style="font-size:0.8rem;opacity:0.5;margin-top:12px;">للحماية من محاولات الاختراق</p>
     </div>
 
     <!-- ============================================================
     JAVASCRIPT
     ============================================================ -->
     <script>
+        // ============================================================
+        // SECURITY CONFIG
+        // ============================================================
+        const SECURITY = {
+            MAX_ATTEMPTS: 5,
+            LOCK_DURATION: 15 * 60 * 1000, // 15 دقيقة
+            USERNAME: 'lolo',
+            PASSWORD: '113114'
+        };
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let loginAttempts = parseInt(localStorage.getItem('disney_login_attempts')) || 0;
+        let lockUntil = parseInt(localStorage.getItem('disney_lock_until')) || 0;
+        let isLoggedIn = false;
+
+        // ============================================================
+        // SECURITY FUNCTIONS
+        // ============================================================
+        function isLocked() {
+            if (lockUntil === 0) return false;
+            if (Date.now() < lockUntil) return true;
+            // انتهى وقت القفل
+            localStorage.removeItem('disney_lock_until');
+            localStorage.removeItem('disney_login_attempts');
+            loginAttempts = 0;
+            lockUntil = 0;
+            return false;
+        }
+
+        function handleFailedAttempt() {
+            loginAttempts++;
+            localStorage.setItem('disney_login_attempts', loginAttempts);
+            
+            if (loginAttempts >= SECURITY.MAX_ATTEMPTS) {
+                // قفل الوصول
+                lockUntil = Date.now() + SECURITY.LOCK_DURATION;
+                localStorage.setItem('disney_lock_until', lockUntil);
+                document.getElementById('securityLock').classList.add('active');
+                document.getElementById('loginOverlay').classList.remove('active');
+                showNotification('⛔ تم قفل الوصول لحماية الموقع');
+                return true;
+            }
+            return false;
+        }
+
+        function resetLoginAttempts() {
+            loginAttempts = 0;
+            localStorage.removeItem('disney_login_attempts');
+            localStorage.removeItem('disney_lock_until');
+            lockUntil = 0;
+        }
+
+        function updateAttemptsDisplay() {
+            const el = document.getElementById('attemptsRemaining');
+            if (!el) return;
+            if (isLocked()) {
+                el.innerHTML = '⛔ الوصول مقفل مؤقتاً';
+                el.style.color = '#e74c3c';
+                return;
+            }
+            const remaining = SECURITY.MAX_ATTEMPTS - loginAttempts;
+            if (remaining <= 2) {
+                el.innerHTML = `⚠️ تبقى <span class="warn">${remaining}</span> محاولات قبل قفل الوصول`;
+                el.style.color = '#e74c3c';
+            } else {
+                el.innerHTML = `🛡️ تبقى ${remaining} محاولات`;
+                el.style.color = '#999';
+            }
+        }
+
         // ============================================================
         // DATA & STATE
         // ============================================================
@@ -1558,8 +2292,8 @@
         const DEFAULT_TEXTS = {
             heroTitle: 'Dis Ney – العرائس الفاخرة',
             heroDesc: 'اكتشفي أجمل العرائس والألعاب الأصلية، صناعة يدوية بجودة استثنائية ✨',
-            handmadeTitle: 'ركن الأشغال اليدوية',
-            productsTitle: 'منتجاتنا الأصلية',
+            handmadeTitle: 'الأشغال اليدوية',
+            productsTitle: 'الأصلية',
             footerAbout: 'العرائس الفاخرة – منتجات أصلية مصنوعة بحب ❤️',
         };
 
@@ -1568,7 +2302,6 @@
         let texts = {};
         let orders = [];
         let revenue = 0;
-        let isLoggedIn = false;
         let uploadedImages = [];
 
         // ============================================================
@@ -1668,7 +2401,6 @@
                     addToCart(id);
                 });
             });
-            // Wishlist buttons
             grid.querySelectorAll('.wishlist-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const icon = this.querySelector('i');
@@ -2031,35 +2763,49 @@
         });
 
         // ============================================================
-        // DASHBOARD / LOGIN
+        // DASHBOARD / LOGIN (مع حماية مزدوجة)
         // ============================================================
         const loginOverlay = document.getElementById('loginOverlay');
         const dashboardOverlay = document.getElementById('dashboardOverlay');
+        const dashboardBtn = document.getElementById('openDashboardBtn');
 
-        document.getElementById('openDashboardBtn')?.addEventListener('click', function() {
-            if (isLoggedIn) {
-                dashboardOverlay.classList.add('active');
-                renderDashboard();
-            } else {
-                loginOverlay.classList.add('active');
-                document.getElementById('loginError').textContent = '';
-            }
-        });
-
+        // ===== تسجيل الدخول =====
         document.getElementById('loginSubmit')?.addEventListener('click', function() {
+            // تحقق من القفل
+            if (isLocked()) {
+                document.getElementById('loginError').textContent = '⛔ الوصول مقفل، حاول بعد 15 دقيقة';
+                return;
+            }
+
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
-            if (user === 'lolo' && pass === '113114') {
+
+            if (user === SECURITY.USERNAME && pass === SECURITY.PASSWORD) {
+                // نجاح
+                resetLoginAttempts();
                 isLoggedIn = true;
                 loginOverlay.classList.remove('active');
                 dashboardOverlay.classList.add('active');
+                dashboardBtn.style.display = 'flex';
                 renderDashboard();
-                showNotification('مرحباً بك في لوحة التحكم 👑');
+                showNotification('👑 مرحباً بك في لوحة التحكم');
+                document.getElementById('loginError').textContent = '';
+                document.getElementById('loginUser').value = '';
+                document.getElementById('loginPass').value = '';
             } else {
+                // فشل
+                const locked = handleFailedAttempt();
                 document.getElementById('loginError').textContent = '❌ اسم المستخدم أو كلمة المرور غير صحيحة';
+                updateAttemptsDisplay();
+                
+                if (locked) {
+                    document.getElementById('loginOverlay').classList.remove('active');
+                    document.getElementById('securityLock').classList.add('active');
+                }
             }
         });
 
+        // ===== دخول بالضغط على Enter =====
         document.getElementById('loginPass')?.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') document.getElementById('loginSubmit').click();
         });
@@ -2067,13 +2813,72 @@
             if (e.key === 'Enter') document.getElementById('loginSubmit').click();
         });
 
+        // ===== فتح لوحة التحكم =====
+        document.getElementById('openDashboardBtn')?.addEventListener('click', function() {
+            if (isLoggedIn) {
+                dashboardOverlay.classList.add('active');
+                renderDashboard();
+            } else {
+                // فتح نافذة تسجيل الدخول
+                loginOverlay.classList.add('active');
+                document.getElementById('loginError').textContent = '';
+                updateAttemptsDisplay();
+                // تحقق من القفل
+                if (isLocked()) {
+                    loginOverlay.classList.remove('active');
+                    document.getElementById('securityLock').classList.add('active');
+                }
+            }
+        });
+
+        // ===== زر الدخول السريع (نقرات مخفية) =====
+        let secretClicks = 0;
+        let secretTimer = null;
+        document.getElementById('secretTrigger')?.addEventListener('click', function() {
+            secretClicks++;
+            if (secretClicks === 1) {
+                secretTimer = setTimeout(() => { secretClicks = 0; }, 3000);
+            }
+            if (secretClicks >= 5) {
+                secretClicks = 0;
+                clearTimeout(secretTimer);
+                // فتح نافذة تسجيل الدخول
+                if (!isLoggedIn) {
+                    loginOverlay.classList.add('active');
+                    document.getElementById('loginError').textContent = '';
+                    updateAttemptsDisplay();
+                    if (isLocked()) {
+                        loginOverlay.classList.remove('active');
+                        document.getElementById('securityLock').classList.add('active');
+                    }
+                } else {
+                    dashboardOverlay.classList.add('active');
+                    renderDashboard();
+                }
+                showNotification('🔑 تم فتح بوابة الدخول');
+            }
+        });
+
+        // ===== إغلاق لوحة التحكم =====
         document.getElementById('closeDash')?.addEventListener('click', function() {
             dashboardOverlay.classList.remove('active');
         });
+
+        // ===== تسجيل الخروج =====
         document.getElementById('logoutBtn')?.addEventListener('click', function() {
             isLoggedIn = false;
             dashboardOverlay.classList.remove('active');
-            showNotification('تم تسجيل الخروج 👋');
+            dashboardBtn.style.display = 'none';
+            resetLoginAttempts();
+            showNotification('👋 تم تسجيل الخروج');
+        });
+
+        // ===== إغلاق النوافذ بالنقر على الخلفية =====
+        document.getElementById('dashboardOverlay')?.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
+        });
+        document.getElementById('cartOverlay')?.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
         });
 
         // ============================================================
@@ -2135,12 +2940,6 @@
         document.getElementById('closeCart')?.addEventListener('click', function() {
             document.getElementById('cartOverlay').classList.remove('active');
         });
-        document.getElementById('cartOverlay')?.addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('active');
-        });
-        document.getElementById('dashboardOverlay')?.addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('active');
-        });
 
         // ============================================================
         // NEWSLETTER
@@ -2194,7 +2993,20 @@
             if (e.key === 'Escape') {
                 document.getElementById('cartOverlay').classList.remove('active');
                 document.getElementById('dashboardOverlay').classList.remove('active');
-                document.getElementById('loginOverlay').classList.remove('active');
+                if (!isLoggedIn) {
+                    document.getElementById('loginOverlay').classList.remove('active');
+                }
+            }
+            // Ctrl+Shift+D = فتح لوحة التحكم بسرعة
+            if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                e.preventDefault();
+                if (isLoggedIn) {
+                    dashboardOverlay.classList.add('active');
+                    renderDashboard();
+                } else {
+                    loginOverlay.classList.add('active');
+                    updateAttemptsDisplay();
+                }
             }
         });
 
@@ -2207,11 +3019,27 @@
         renderCart();
         renderTexts();
         setupImageUpload();
-        if (isLoggedIn) renderDashboard();
 
-        console.log('✨ Dis Ney – الموقع الجديد جاهز!');
-        console.log('🎨 تصميم عصري مع تأثيرات حركية');
-        console.log('🔐 تسجيل الدخول: lolo / 113114');
+        // تحقق من حالة القفل
+        if (isLocked()) {
+            document.getElementById('securityLock').classList.add('active');
+        }
+
+        // تحقق من حالة تسجيل الدخول السابقة
+        const savedLogin = localStorage.getItem('disney_logged_in');
+        if (savedLogin === 'true') {
+            isLoggedIn = true;
+            dashboardBtn.style.display = 'flex';
+        }
+
+        // تحديث عداد المحاولات
+        updateAttemptsDisplay();
+
+        console.log('✨ Dis Ney – الموقع جاهز مع حماية مزدوجة!');
+        console.log('🔐 اسم المستخدم: lolo');
+        console.log('🔑 كلمة المرور: 113114');
+        console.log('🛡️ عدد المحاولات المسموحة: 5');
+        console.log('⌨️ Ctrl+Shift+D = فتح لوحة الدخول');
     </script>
 </body>
     </html>
