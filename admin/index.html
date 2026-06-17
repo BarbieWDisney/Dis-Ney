@@ -1,1 +1,86 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لوحة تحكم Dis Ney</title>
+    <style>
+        body {
+            background: #f8f4f2;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-box h1 {
+            color: #3d2a1f;
+            font-size: 2rem;
+        }
+        .login-box .logo {
+            font-size: 4rem;
+            color: #e07a5f;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 30px;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #e07a5f;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .login-box button:hover { background: #c0634a; }
+    </style>
+</head>
+<body>
+    <!-- تسجيل الدخول إلى GitHub -->
+    <div id="cms-root"></div>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+        // إعدادات CMS مع دعم GitHub
+        CMS.init({
+            config: {
+                backend: {
+                    name: 'github',
+                    repo: 'your-username/disney-store',
+                    branch: 'main',
+                    base_url: 'https://api.github.com',
+                },
+                media_folder: 'assets/images',
+                public_folder: '/disney-store/assets/images',
+                collections: [{
+                    name: 'products',
+                    label: 'المنتجات',
+                    folder: '_data',
+                    file: 'products.yml',
+                    fields: [
+                        { name: 'id', label: 'الرقم التسلسلي', widget: 'number', default: 1 },
+                        { name: 'name', label: 'اسم المنتج', widget: 'string' },
+                        { name: 'price', label: 'السعر', widget: 'number', valueType: 'float' },
+                        { name: 'image', label: 'الصورة', widget: 'image' },
+                        { name: 'description', label: 'الوصف', widget: 'text' },
+                        { name: 'original', label: 'منتج أصلي؟', widget: 'boolean', default: true }
+                    ]
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
