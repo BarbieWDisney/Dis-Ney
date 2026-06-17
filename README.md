@@ -20,4 +20,33 @@
 - CSS3 (Flexbox, Grid, Animations)
 - JavaScript (ES6+)
 - Font Awesome 6
-- Google Font
+- Google Fonts (Cairo)
+- Decap CMS (لإدارة المحتوى)
+
+## 📋 متطلبات التشغيل
+
+- متصفح حديث (Chrome, Firefox, Edge, Safari)
+- اتصال بالإنترنت لتحميل الخطوط والأيقونات
+
+## 🚀 التثبيت والنشر
+
+### النشر على GitHub Pages
+
+1. أنشئ مستودعاً جديداً على GitHub
+2. ارفع جميع الملفات إلى المستودع
+3. اذهب إلى Settings → Pages
+4. اختر الفرع `main` والمجلد `/ (root)`
+5. اضغط Save
+
+### تسجيل الدخول إلى لوحة التحكم
+
+- اسم المستخدم: `lolo`
+- كلمة المرور: `113114`
+
+### استخدام Decap CMS
+
+1. افتح `https://your-username.github.io/repo-name/admin/`
+2. سجل الدخول بحساب GitHub الخاص بك
+3. أدر المنتجات والصور بسهولة
+
+## 📁 هيكل الملفات
