@@ -1,1 +1,21 @@
+# admin/config.yml
+backend:
+  name: github
+  repo: your-username/disney-store
+  branch: main
 
+media_folder: "assets/images"
+public_folder: "/disney-store/assets/images"
+
+collections:
+  - name: "products"
+    label: "المنتجات"
+    folder: "_data"
+    file: "products.yml"
+    fields:
+      - { name: "id", label: "الرقم التسلسلي", widget: "number", default: 1 }
+      - { name: "name", label: "اسم المنتج", widget: "string" }
+      - { name: "price", label: "السعر", widget: "number", valueType: "float" }
+      - { name: "image", label: "الصورة", widget: "image" }
+      - { name: "description", label: "الوصف", widget: "text" }
+      - { name: "original", label: "منتج أصلي؟", widget: "boolean", default: true }
