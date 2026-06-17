@@ -1,1 +1,27 @@
+# _config.yml - إعدادات الموقع الأساسية
+title: "Dis Ney - متجر العرائس الفاخر"
+description: "أجمل العرائس والألعاب الأصلية"
+baseurl: "/disney-store"
+url: "https://your-username.github.io"
 
+# إعدادات اللغة
+lang: ar
+direction: rtl
+
+# إعدادات CMS
+collections:
+  products:
+    output: true
+    permalink: /products/:name/
+
+# مجلد الصور
+defaults:
+  - scope:
+      path: "assets/images"
+    values:
+      image: true
+
+# إعدادات البناء
+markdown: kramdown
+plugins:
+  - jekyll-feed
