@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dis Ney - منصة البيع</title>
+    <title>Dis Ney - متجر العرائس</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -18,6 +18,7 @@
             background: #faf3f0;
             color: #2d2a2a;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         a {
             text-decoration: none;
@@ -27,6 +28,102 @@
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* ===== LOGIN OVERLAY ===== */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(10px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.5s;
+        }
+        .login-overlay.hidden {
+            display: none;
+        }
+        .login-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .login-box .logo-login {
+            font-size: 4rem;
+            color: #e07a5f;
+            margin-bottom: 10px;
+        }
+        .login-box h2 {
+            font-size: 2rem;
+            color: #3d2a1f;
+            margin-bottom: 5px;
+        }
+        .login-box p {
+            color: #6b4f3f;
+            margin-bottom: 25px;
+        }
+        .login-box .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .login-box .input-group label {
+            display: block;
+            font-weight: 600;
+            color: #3d2a1f;
+            margin-bottom: 5px;
+        }
+        .login-box .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #f0e0d8;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #faf3f0;
+        }
+        .login-box .input-group input:focus {
+            outline: none;
+            border-color: #e07a5f;
+            box-shadow: 0 0 0 4px rgba(224, 122, 95, 0.15);
+        }
+        .login-box .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: #e07a5f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-box .login-btn:hover {
+            background: #c0634a;
+            transform: scale(1.02);
+        }
+        .login-box .login-error {
+            color: #a65555;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .login-box .login-error.show {
+            display: block;
         }
 
         /* ===== NOTIFICATION TOAST ===== */
@@ -238,42 +335,26 @@
             text-align: center;
         }
 
-        /* ===== MODE SWITCH ===== */
-        .mode-switch {
+        /* ===== ADMIN BUTTON (ظهر للمالك بعد تسجيل الدخول) ===== */
+        .admin-toggle {
             background: #3d2a1f;
-            padding: 10px 0;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        .mode-switch button {
-            background: #e07a5f;
-            border: none;
-            color: white;
-            padding: 10px 30px;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
-            margin: 0 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .mode-switch button.active {
-            background: #ffb7b7;
-            color: #3d2a1f;
-        }
-        .mode-switch button:hover {
+        .admin-toggle:hover {
+            background: #e07a5f;
             transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-
-        /* ===== BOTH MODES ===== */
-        .mode-content {
-            display: none;
-        }
-        .mode-content.active {
-            display: block;
+        .admin-toggle i {
+            font-size: 1.2rem;
         }
 
         /* ===== HEADER ===== */
@@ -282,6 +363,9 @@
             padding: 20px 0;
             box-shadow: 0 4px 15px rgba(255, 100, 100, 0.3);
             border-bottom: 3px solid #fff5e6;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .header-flex {
             display: flex;
@@ -552,6 +636,129 @@
             box-shadow: 0 8px 20px rgba(200, 90, 60, 0.3);
         }
 
+        /* ===== ADMIN PANEL (يظهر فقط للمالك) ===== */
+        .admin-panel {
+            display: none;
+            background: #fff9f5;
+            border-radius: 40px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #e07a5f;
+            box-shadow: 0 10px 40px rgba(224, 122, 95, 0.15);
+        }
+        .admin-panel.active {
+            display: block;
+        }
+        .admin-panel .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .admin-panel .admin-header h3 {
+            font-size: 1.8rem;
+            color: #3d2a1f;
+        }
+        .admin-panel .admin-header .close-admin {
+            background: #a65555;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .admin-panel .admin-header .close-admin:hover {
+            transform: scale(1.05);
+            background: #8a4444;
+        }
+        .admin-panel .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .admin-panel .admin-stats .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #f0e0d8;
+        }
+        .admin-panel .admin-stats .stat-box i {
+            font-size: 2rem;
+            color: #b45f4a;
+        }
+        .admin-panel .admin-stats .stat-box h4 {
+            font-size: 1.5rem;
+            color: #3d2a1f;
+        }
+        .admin-panel .admin-stats .stat-box p {
+            color: #6b4f3f;
+            font-size: 0.9rem;
+        }
+        .admin-panel .admin-products .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            border: 1px solid #f0e0d8;
+        }
+        .admin-panel .admin-products .product-item .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .admin-panel .admin-products .product-item .product-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .admin-panel .admin-products .product-item .product-actions button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 30px;
+            transition: 0.3s;
+            margin: 0 3px;
+        }
+        .admin-panel .admin-products .product-item .product-actions .edit-btn {
+            color: #4a7a5a;
+        }
+        .admin-panel .admin-products .product-item .product-actions .edit-btn:hover {
+            background: #4a7a5a;
+            color: white;
+        }
+        .admin-panel .admin-products .product-item .product-actions .delete-btn {
+            color: #a65555;
+        }
+        .admin-panel .admin-products .product-item .product-actions .delete-btn:hover {
+            background: #a65555;
+            color: white;
+        }
+        .admin-panel .add-product-btn {
+            background: #4a7a5a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .admin-panel .add-product-btn:hover {
+            transform: scale(1.05);
+            background: #3a6a4a;
+        }
+
         /* ===== SOCIAL LINKS ===== */
         .social-links {
             display: flex;
@@ -696,14 +903,37 @@
             .handmade-header { flex-direction: column; text-align: center; }
             .section-title { font-size: 1.8rem; }
             .newsletter input { width: 90%; }
-            .mode-switch button { padding: 8px 16px; font-size: 0.9rem; }
             .cart-sidebar { width: 100%; left: -100%; }
             .notification-toast { left: 10px; right: 10px; max-width: none; }
             .social-links a { padding: 10px 18px; font-size: 0.85rem; }
+            .login-box { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <div class="logo-login">👑</div>
+        <h2>Dis Ney</h2>
+        <p>تسجيل الدخول إلى لوحة التحكم</p>
+        <div class="input-group">
+            <label><i class="fas fa-user"></i> اسم المستخدم</label>
+            <input type="text" id="loginUsername" placeholder="أدخل اسم المستخدم" />
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-lock"></i> كلمة المرور</label>
+            <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" />
+        </div>
+        <button class="login-btn" onclick="handleLogin()">
+            <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+        </button>
+        <div class="login-error" id="loginError">
+            <i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة
+        </div>
+    </div>
+</div>
 
 <!-- ===== NOTIFICATION TOAST ===== -->
 <div id="notificationToast" class="notification-toast">
@@ -742,20 +972,10 @@
     </div>
 </div>
 
-<!-- ===== MODE SWITCH ===== -->
-<div class="mode-switch">
-    <button id="btnOwner" class="active" onclick="switchMode('owner')">
-        <i class="fas fa-user-tie"></i> وضع المالك
-    </button>
-    <button id="btnCustomer" onclick="switchMode('customer')">
-        <i class="fas fa-user"></i> وضع الزبون
-    </button>
-</div>
-
 <!-- ============================================================ -->
-<!-- ===== MODE 1: OWNER (المالك) ===== -->
+<!-- ===== الواجهة الرئيسية (للزبائن فقط) ===== -->
 <!-- ============================================================ -->
-<div id="modeOwner" class="mode-content active">
+<div id="mainSite">
 
     <header>
         <div class="container header-flex">
@@ -767,161 +987,17 @@
             <nav>
                 <ul>
                     <li><a href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
-                    <li><a href="#products"><i class="fas fa-gem"></i> العرائس</a></li>
-                    <li><a href="#handmade"><i class="fas fa-hands"></i> Handmade</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> الإحصائيات</a></li>
-                    <li><a href="#"><i class="fas fa-bell"></i> الإشعارات <span style="background:red; color:white; border-radius:50%; padding:0 8px; font-size:0.7rem;" id="notifCount">0</span></a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>👑 لوحة تحكم المالك</h1>
-            <p><i class="fas fa-check-circle" style="color:#b45f4a;"></i> إدارة المنتجات، الطلبات، والإحصائيات</p>
-        </div>
-    </section>
-
-    <!-- Handmade Corner -->
-    <section id="handmade" class="container handmade-corner">
-        <div class="handmade-header">
-            <i class="fas fa-hands"></i>
-            <h2>🧵 Handmade Corner <small>– إدارة القسم اليدوي</small></h2>
-            <i class="fas fa-edit" style="font-size:2rem; color:#b45f4a; margin-right:auto;"></i>
-        </div>
-        <div class="handmade-grid">
-            <div class="handmade-item">
-                <i class="fas fa-plus-circle"></i>
-                <h4>إضافة منتج</h4>
-                <p>أضف منتجاً يدوياً جديداً</p>
-                <span class="badge-handmade">إدارة</span>
-            </div>
-            <div class="handmade-item">
-                <i class="fas fa-edit"></i>
-                <h4>تعديل</h4>
-                <p>تعديل تفاصيل المنتجات</p>
-                <span class="badge-handmade">تحديث</span>
-            </div>
-            <div class="handmade-item">
-                <i class="fas fa-trash-alt"></i>
-                <h4>حذف</h4>
-                <p>حذف منتج من القسم</p>
-                <span class="badge-handmade">إزالة</span>
-            </div>
-            <div class="handmade-item">
-                <i class="fas fa-eye"></i>
-                <h4>معاينة</h4>
-                <p>شاهد المنتج كما يراه الزبون</p>
-                <span class="badge-handmade">عرض</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products -->
-    <section id="products" class="container">
-        <div class="section-title">
-            <i class="fas fa-boxes"></i> إدارة المنتجات
-            <button class="btn" style="margin-right:auto; padding:8px 20px; font-size:0.9rem;">
-                <i class="fas fa-plus"></i> إضافة جديد
-            </button>
-        </div>
-        <div class="product-grid">
-            <div class="product-card">
-                <img src="https://placehold.co/400x400/fceae3/b45f4a?text=👸+Princess" alt="عرسة" />
-                <h3>أميرة الأحلام</h3>
-                <span class="original-badge"><i class="fas fa-check-circle"></i> أصلية</span>
-                <div class="price">$59.99</div>
-                <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#4a7a5a;"><i class="fas fa-edit"></i> تعديل</button>
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#a65555;"><i class="fas fa-trash"></i> حذف</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://placehold.co/400x400/fceae3/b45f4a?text=🐻+Teddy" alt="دب" />
-                <h3>دب لطيف</h3>
-                <span class="original-badge"><i class="fas fa-check-circle"></i> أصلية</span>
-                <div class="price">$34.50</div>
-                <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#4a7a5a;"><i class="fas fa-edit"></i> تعديل</button>
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#a65555;"><i class="fas fa-trash"></i> حذف</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://placehold.co/400x400/fceae3/b45f4a?text=🎀+Doll" alt="عرسة" />
-                <h3>عرسة كلاسيك</h3>
-                <span class="original-badge"><i class="fas fa-check-circle"></i> أصلية</span>
-                <div class="price">$45.00</div>
-                <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#4a7a5a;"><i class="fas fa-edit"></i> تعديل</button>
-                    <button class="btn" style="padding:8px 16px; font-size:0.8rem; background:#a65555;"><i class="fas fa-trash"></i> حذف</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Owner Stats -->
-    <section class="container" style="margin-bottom:30px;">
-        <div class="section-title">
-            <i class="fas fa-chart-pie"></i> إحصائيات سريعة
-        </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:20px;">
-            <div style="background:white; border-radius:30px; padding:20px; text-align:center; border:1px solid #f0e0d8;">
-                <i class="fas fa-box" style="font-size:2.5rem; color:#b45f4a;"></i>
-                <h3>45</h3>
-                <p>إجمالي المنتجات</p>
-            </div>
-            <div style="background:white; border-radius:30px; padding:20px; text-align:center; border:1px solid #f0e0d8;">
-                <i class="fas fa-shopping-cart" style="font-size:2.5rem; color:#b45f4a;"></i>
-                <h3 id="orderCount">0</h3>
-                <p>طلبات جديدة</p>
-            </div>
-            <div style="background:white; border-radius:30px; padding:20px; text-align:center; border:1px solid #f0e0d8;">
-                <i class="fas fa-users" style="font-size:2.5rem; color:#b45f4a;"></i>
-                <h3>89</h3>
-                <p>زبائن مسجلين</p>
-            </div>
-            <div style="background:white; border-radius:30px; padding:20px; text-align:center; border:1px solid #f0e0d8;">
-                <i class="fas fa-dollar-sign" style="font-size:2.5rem; color:#b45f4a;"></i>
-                <h3 id="totalRevenue">$0.00</h3>
-                <p>إيرادات هذا الشهر</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div><h4><i class="fas fa-crown"></i> Dis Ney</h4><p style="color:#dbb8ab;">لوحة تحكم المالك</p></div>
-                <div><h4>إدارة</h4><ul><li><a href="#">المنتجات</a></li><li><a href="#">الطلبات</a></li><li><a href="#">الزبائن</a></li></ul></div>
-                <div><h4>إعدادات</h4><ul><li><a href="#">الملف الشخصي</a></li><li><a href="#">المتجر</a></li></ul></div>
-            </div>
-            <div class="copyright"><p>© 2026 Dis Ney – لوحة تحكم المالك</p></div>
-        </div>
-    </footer>
-</div>
-
-<!-- ============================================================ -->
-<!-- ===== MODE 2: CUSTOMER (الزبون) ===== -->
-<!-- ============================================================ -->
-<div id="modeCustomer" class="mode-content">
-
-    <header>
-        <div class="container header-flex">
-            <div class="logo">
-                <i class="fas fa-crown"></i>
-                <div class="logo-text">Dis <span>Ney</span></div>
-                <i class="fas fa-star" style="font-size:1.2rem; color:#ffe484;"></i>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
-                    <li><a href="#customerProducts"><i class="fas fa-gem"></i> العرائس</a></li>
-                    <li><a href="#customerHandmade"><i class="fas fa-hands"></i> Handmade</a></li>
+                    <li><a href="#productsSection"><i class="fas fa-gem"></i> العرائس</a></li>
+                    <li><a href="#handmadeSection"><i class="fas fa-hands"></i> Handmade</a></li>
                     <li><a href="#"><i class="fas fa-heart"></i> المفضلة</a></li>
                     <li class="cart-icon" onclick="toggleCart()">
                         <i class="fas fa-shopping-bag" style="font-size:1.5rem;"></i>
                         <span class="cart-count" id="cartCount">0</span>
+                    </li>
+                    <li>
+                        <button class="admin-toggle" onclick="showLogin()">
+                            <i class="fas fa-user-tie"></i> لوحة التحكم
+                        </button>
                     </li>
                 </ul>
             </nav>
@@ -935,8 +1011,8 @@
         </div>
     </section>
 
-    <!-- Customer Handmade Corner -->
-    <section id="customerHandmade" class="container handmade-corner">
+    <!-- Handmade Corner -->
+    <section id="handmadeSection" class="container handmade-corner">
         <div class="handmade-header">
             <i class="fas fa-hands"></i>
             <h2>🧵 Handmade Corner <small>– لمسات يدوية فريدة</small></h2>
@@ -970,8 +1046,8 @@
         </div>
     </section>
 
-    <!-- Customer Products -->
-    <section id="customerProducts" class="container">
+    <!-- Products -->
+    <section id="productsSection" class="container">
         <div class="section-title">
             <i class="fas fa-star"></i> عرائس وألعاب أصلية
         </div>
@@ -1080,22 +1156,118 @@
     </footer>
 </div>
 
+<!-- ============================================================ -->
+<!-- ===== لوحة تحكم المالك (تظهر فقط بعد تسجيل الدخول) ===== -->
+<!-- ============================================================ -->
+<div class="admin-panel" id="adminPanel">
+    <div class="container">
+        <div class="admin-header">
+            <h3><i class="fas fa-user-tie"></i> لوحة تحكم المالك</h3>
+            <button class="close-admin" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="admin-stats">
+            <div class="stat-box">
+                <i class="fas fa-box"></i>
+                <h4 id="adminProductCount">0</h4>
+                <p>إجمالي المنتجات</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-shopping-cart"></i>
+                <h4 id="adminOrderCount">0</h4>
+                <p>طلبات جديدة</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-users"></i>
+                <h4>89</h4>
+                <p>زبائن مسجلين</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-dollar-sign"></i>
+                <h4 id="adminRevenue">$0.00</h4>
+                <p>إيرادات هذا الشهر</p>
+            </div>
+        </div>
+
+        <!-- إدارة المنتجات -->
+        <div class="admin-products">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h4><i class="fas fa-edit"></i> إدارة المنتجات</h4>
+                <button class="add-product-btn" onclick="addProduct()">
+                    <i class="fas fa-plus"></i> إضافة منتج جديد
+                </button>
+            </div>
+            <div id="adminProductList">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ===== SCRIPT ===== -->
 <script>
     // ===== PRODUCT DATA =====
-    const products = [
+    let products = [
         { id: 1, name: 'أميرة الأحلام', price: 59.99, image: 'https://placehold.co/400x400/fceae3/b45f4a?text=👸+Princess', original: true },
         { id: 2, name: 'دب لطيف', price: 34.50, image: 'https://placehold.co/400x400/fceae3/b45f4a?text=🐻+Teddy', original: true },
         { id: 3, name: 'عرسة كلاسيك', price: 45.00, image: 'https://placehold.co/400x400/fceae3/b45f4a?text=🎀+Doll', original: true },
         { id: 4, name: 'دمية ناعمة', price: 28.90, image: 'https://placehold.co/400x400/fceae3/b45f4a?text=🧸+Bear', original: true }
     ];
+    let nextId = 5;
 
     // ===== CART =====
     let cart = [];
     let orderCount = 0;
     let totalRevenue = 0;
+    let isAdmin = false;
 
-    // ===== RENDER PRODUCTS =====
+    // ===== LOGIN =====
+    function showLogin() {
+        document.getElementById('loginOverlay').classList.remove('hidden');
+        document.getElementById('loginError').classList.remove('show');
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginUsername').focus();
+    }
+
+    function handleLogin() {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+
+        if (username === 'lolo' && password === '113114') {
+            isAdmin = true;
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('active');
+            renderAdminProducts();
+            updateAdminStats();
+            showNotification('👑 مرحباً بك', 'تم تسجيل الدخول بنجاح إلى لوحة التحكم');
+        } else {
+            document.getElementById('loginError').classList.add('show');
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginPassword').focus();
+        }
+    }
+
+    // Enter key for login
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const overlay = document.getElementById('loginOverlay');
+            if (!overlay.classList.contains('hidden')) {
+                handleLogin();
+            }
+        }
+    });
+
+    function logout() {
+        isAdmin = false;
+        document.getElementById('adminPanel').classList.remove('active');
+        showNotification('👋 تم تسجيل الخروج', 'تم الخروج من لوحة التحكم');
+    }
+
+    // ===== RENDER PRODUCTS (العرض للزبائن) =====
     function renderProducts() {
         const grid = document.getElementById('productGrid');
         if (!grid) return;
@@ -1110,6 +1282,88 @@
                 </button>
             </div>
         `).join('');
+    }
+
+    // ===== RENDER ADMIN PRODUCTS (عرض المنتجات في لوحة التحكم) =====
+    function renderAdminProducts() {
+        const list = document.getElementById('adminProductList');
+        if (!list) return;
+        list.innerHTML = products.map(p => `
+            <div class="product-item">
+                <div class="product-info">
+                    <img src="${p.image}" alt="${p.name}" />
+                    <div>
+                        <strong>${p.name}</strong>
+                        <span style="color:#b45f4a; font-weight:700; margin-right:10px;">$${p.price.toFixed(2)}</span>
+                        <span style="background:#2b7a4b; color:white; padding:2px 12px; border-radius:30px; font-size:0.7rem;">أصلي</span>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="edit-btn" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button>
+                    <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ===== UPDATE ADMIN STATS =====
+    function updateAdminStats() {
+        document.getElementById('adminProductCount').textContent = products.length;
+        document.getElementById('adminOrderCount').textContent = orderCount;
+        document.getElementById('adminRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+    }
+
+    // ===== ADD PRODUCT =====
+    function addProduct() {
+        const name = prompt('أدخل اسم المنتج:');
+        if (!name) return;
+        const price = parseFloat(prompt('أدخل سعر المنتج:'));
+        if (isNaN(price) || price <= 0) return;
+        const image = prompt('أدخل رابط الصورة (اتركه فارغاً للاستخدام الافتراضي):') || 'https://placehold.co/400x400/fceae3/b45f4a?text=🎀+New';
+
+        products.push({
+            id: nextId++,
+            name: name,
+            price: price,
+            image: image,
+            original: true
+        });
+
+        renderProducts();
+        renderAdminProducts();
+        updateAdminStats();
+        showNotification('✅ تمت الإضافة', `تم إضافة المنتج "${name}" بنجاح`);
+    }
+
+    // ===== EDIT PRODUCT =====
+    function editProduct(id) {
+        const product = products.find(p => p.id === id);
+        if (!product) return;
+
+        const name = prompt('تعديل اسم المنتج:', product.name);
+        if (name) product.name = name;
+        const price = parseFloat(prompt('تعديل سعر المنتج:', product.price));
+        if (!isNaN(price) && price > 0) product.price = price;
+        const image = prompt('تعديل رابط الصورة:', product.image);
+        if (image) product.image = image;
+
+        renderProducts();
+        renderAdminProducts();
+        updateAdminStats();
+        showNotification('✅ تم التعديل', `تم تعديل المنتج "${product.name}" بنجاح`);
+    }
+
+    // ===== DELETE PRODUCT =====
+    function deleteProduct(id) {
+        const product = products.find(p => p.id === id);
+        if (!product) return;
+        if (!confirm(`هل أنت متأكد من حذف المنتج "${product.name}"؟`)) return;
+
+        products = products.filter(p => p.id !== id);
+        renderProducts();
+        renderAdminProducts();
+        updateAdminStats();
+        showNotification('🗑️ تم الحذف', `تم حذف المنتج "${product.name}" بنجاح`);
     }
 
     // ===== ADD TO CART =====
@@ -1152,7 +1406,6 @@
         const totalPriceEl = document.getElementById('totalPrice');
         const cartCount = document.getElementById('cartCount');
 
-        // Update counter
         const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
         if (cartCount) cartCount.textContent = totalItems;
 
@@ -1212,12 +1465,9 @@
         const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
         const items = cart.map(item => `${item.name} (×${item.qty})`).join(', ');
 
-        // Send notification to owner
         orderCount++;
         totalRevenue += total;
-        document.getElementById('orderCount').textContent = orderCount;
-        document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
-        document.getElementById('notifCount').textContent = orderCount;
+        updateAdminStats();
 
         showNotification(
             '🛍️ طلب شراء جديد!',
@@ -1226,7 +1476,6 @@
 
         alert(`✅ تم إتمام الشراء بنجاح!\n\nالمنتجات: ${items}\nالمجموع: $${total.toFixed(2)}\n\nسيصلك إشعار للمالك لتأكيد الطلب.`);
 
-        // Clear cart
         cart = [];
         updateCart();
         toggleCart();
@@ -1241,7 +1490,6 @@
         toast.style.animation = 'none';
         setTimeout(() => toast.style.animation = 'slideIn 0.5s ease', 10);
 
-        // Auto hide after 8 seconds
         clearTimeout(window.notifTimeout);
         window.notifTimeout = setTimeout(() => {
             toast.style.display = 'none';
@@ -1257,22 +1505,14 @@
         alert('✅ تم الاشتراك بنجاح! ستصل لك عروضنا الحصرية.');
     }
 
-    // ===== SWITCH MODE =====
-    function switchMode(mode) {
-        document.querySelectorAll('.mode-content').forEach(el => el.classList.remove('active'));
-        document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
-
-        document.getElementById('btnOwner').classList.toggle('active', mode === 'owner');
-        document.getElementById('btnCustomer').classList.toggle('active', mode === 'customer');
-    }
-
     // ===== INIT =====
     renderProducts();
     updateCart();
+    updateAdminStats();
 
-    console.log('👑 Dis Ney – نظام متكامل للمالك والزبون');
-    console.log('📦 سلة تسوق متطورة + إشعارات فورية');
-    console.log('🔗 روابط التواصل الاجتماعي مضافة');
+    console.log('👑 Dis Ney – نظام متكامل للمالك والزبائن');
+    console.log('🔐 تسجيل الدخول للمالك: lolo / 113114');
+    console.log('📦 الزبائن يمكنهم التصفح والشراء فقط');
 </script>
 
 </body>
